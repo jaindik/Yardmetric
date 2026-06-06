@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Server Error — Material Calculator Hub"
+  description="Something went wrong on our end. Please try again."
+  noindex={true}
+>
+  <NavBar />
+
+  <main class="error-main">
+    <div class="container">
+      <div class="error-content">
+        <p class="error-code">500</p>
+        <h1 class="error-title">Something went wrong.</h1>
+        <p class="error-desc">
+          We encountered an unexpected error. This has been logged and we'll look into it.
+          In the meantime, try refreshing the page or returning to the homepage.
+        </p>
+        <div class="error-actions">
+          <a href="/" class="btn-primary">Go to Homepage</a>
+          <button onclick="window.location.reload()" class="btn-secondary">Try Again</button>
+        </div>
+        <p class="error-hint">
+          If this keeps happening, the calculators are all client-side and will still work —
+          try <a href="/">browsing to a specific calculator</a> directly.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+.container { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+.error-main { padding: 100px 0; }
+.error-content { text-align: center; }
+.error-code { font-family: var(--font-mono); font-size: 14px; color: var(--color-mute); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+.error-title { font-size: 48px; font-weight: 600; letter-spacing: -2.4px; color: var(--color-ink); margin-bottom: 16px; }
+.error-desc { font-size: 16px; color: var(--color-body); line-height: 26px; max-width: 440px; margin: 0 auto 32px; }
+.error-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 24px; }
+.btn-primary { display: inline-flex; align-items: center; height: 44px; padding: 0 20px; background: var(--color-ink); color: #fff; font-size: 15px; font-weight: 500; border-radius: 100px; text-decoration: none; transition: opacity 0.15s; }
+.btn-primary:hover { opacity: 0.85; }
+.btn-secondary { display: inline-flex; align-items: center; height: 44px; padding: 0 20px; background: var(--color-canvas); color: var(--color-ink); font-size: 15px; font-weight: 500; border-radius: 100px; text-decoration: none; border: 1px solid var(--color-hairline); cursor: pointer; transition: border-color 0.15s; font-family: inherit; }
+.btn-secondary:hover { border-color: var(--color-hairline-strong); }
+.error-hint { font-size: 13px; color: var(--color-mute); line-height: 20px; }
+.error-hint a { color: var(--color-link); }
+</style>

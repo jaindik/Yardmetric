@@ -1,11 +1,578 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import { calculators, categories, getPopularCalculators } from '../data/calculators';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const featured = getPopularCalculators(8);
+
+const whyCards = [
+  { icon: '⚡', title: 'Instant Results', desc: 'Calculations update in real-time as you type — no submit button needed.' },
+  { icon: '📱', title: 'Mobile Friendly', desc: 'Large touch targets and an optimized layout for phones and tablets.' },
+  { icon: '📐', title: 'Multiple Units', desc: 'Switch between imperial and metric without losing your values.' },
+  { icon: '🎯', title: 'Accurate Formulas', desc: 'Industry-standard formulas used by professionals and contractors.' },
+  { icon: '🆓', title: 'Free Forever', desc: 'No account, no ads blocking your work, no paywalls. Ever.' },
+];
+
+const structuredData = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Material Calculator Hub',
+  url: 'https://materialcalculatorhub.com',
+  description: 'Free material calculators for construction, landscaping, and DIY projects.',
+});
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="Material Calculator Hub — Free Calculators for Construction & Landscaping"
+  description="Free, accurate calculators for gravel, sand, mulch, topsoil, concrete, asphalt, lumber and more. Calculate material quantities instantly for any project."
+  canonical="https://materialcalculatorhub.com/"
+>
+  <Fragment slot="structured-data">
+    <script type="application/ld+json" set:html={structuredData} />
+  </Fragment>
+
+  <NavBar />
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-mesh" aria-hidden="true"></div>
+      <div class="container hero-inner">
+        <div class="hero-badge">
+          <span class="badge-dot" aria-hidden="true"></span>
+          <span>Free · No Signup · Instant Results</span>
+        </div>
+        <h1 class="hero-title">
+          Material Calculators for<br />Construction, Landscaping<br />&amp; DIY Projects.
+        </h1>
+        <p class="hero-sub">
+          Fast, accurate calculators for gravel, sand, mulch, topsoil, concrete,<br class="hero-br" />
+          asphalt, lumber, and more. Built for pros and homeowners alike.
+        </p>
+        <div class="hero-cta-row">
+          <a href="#calculators" class="btn-primary">Browse Calculators</a>
+          <a href="/landscaping" class="btn-secondary">Landscaping →</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num">41</span>
+            <span class="stat-label">Calculators</span>
+          </div>
+          <div class="stat-div"></div>
+          <div class="stat">
+            <span class="stat-num">4</span>
+            <span class="stat-label">Categories</span>
+          </div>
+          <div class="stat-div"></div>
+          <div class="stat">
+            <span class="stat-num">100%</span>
+            <span class="stat-label">Free</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="section" id="categories">
+      <div class="container">
+        <p class="section-eyebrow">Categories</p>
+        <div class="categories-grid">
+          {categories.map((cat) => {
+            const count = calculators.filter(c => c.categorySlug === cat.slug).length;
+            return (
+              <a href={`/${cat.slug}`} class="category-card">
+                <span class="category-icon" aria-hidden="true">{cat.icon}</span>
+                <div class="category-text">
+                  <p class="category-name">{cat.name}</p>
+                  <p class="category-count">{count} calculators</p>
+                </div>
+                <svg class="category-arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8h10M9 4.5 12.5 8 9 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURED CALCULATORS -->
+    <section class="section section-soft" id="calculators">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">Popular Calculators</p>
+            <h2 class="section-title">Most Used Tools</h2>
+          </div>
+        </div>
+        <div class="featured-grid">
+          {featured.map((calc) => calc && (
+            <a href={`/calculators/${calc.slug}`} class="featured-card">
+              <div class="featured-card-top">
+                <span class="featured-icon" aria-hidden="true">{calc.icon}</span>
+                <span class="featured-cat">{calc.category}</span>
+              </div>
+              <p class="featured-name">{calc.name}</p>
+              <p class="featured-desc">{calc.shortDesc}</p>
+              <span class="featured-cta">Calculate →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY OURS -->
+    <section class="section">
+      <div class="container">
+        <p class="section-eyebrow">Why Material Calculator Hub</p>
+        <h2 class="section-title">Built Different</h2>
+        <div class="why-grid">
+          {whyCards.map((card) => (
+            <div class="why-card">
+              <span class="why-icon" aria-hidden="true">{card.icon}</span>
+              <p class="why-title">{card.title}</p>
+              <p class="why-desc">{card.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- DIRECTORY -->
+    <section class="section section-soft" id="directory">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <p class="section-eyebrow">All Calculators</p>
+            <h2 class="section-title">Calculator Directory</h2>
+          </div>
+          <div class="search-wrap">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <circle cx="6.5" cy="6.5" r="4" stroke="currentColor" stroke-width="1.25"/>
+              <path d="M10 10l3 3" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+            </svg>
+            <input
+              type="search"
+              class="search-input"
+              placeholder="Search calculators…"
+              id="calc-search"
+              aria-label="Search calculators"
+            />
+          </div>
+        </div>
+
+        {categories.map((cat) => (
+          <div class="dir-section" data-category={cat.slug}>
+            <h3 class="dir-category-title">
+              <span aria-hidden="true">{cat.icon}</span> {cat.name}
+            </h3>
+            <div class="dir-grid">
+              {calculators
+                .filter((c) => c.categorySlug === cat.slug)
+                .map((calc) => (
+                  <a href={`/calculators/${calc.slug}`} class="dir-card" data-name={calc.name.toLowerCase()}>
+                    <span class="dir-icon" aria-hidden="true">{calc.icon}</span>
+                    <div class="dir-text">
+                      <p class="dir-name">{calc.name}</p>
+                      <p class="dir-desc">{calc.shortDesc}</p>
+                    </div>
+                  </a>
+                ))}
+            </div>
+          </div>
+        ))}
+
+        <div class="dir-empty" id="dir-empty" hidden>
+          <p>No calculators found for "<span id="search-term"></span>"</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+      <div class="container faq-container">
+        <p class="section-eyebrow">FAQ</p>
+        <h2 class="section-title">Common Questions</h2>
+        <div class="faq-list">
+          {[
+            { q: 'Are these calculators free?', a: 'Yes — all calculators are completely free, with no signup, account, or subscription required.' },
+            { q: 'How accurate are the results?', a: 'Our calculators use industry-standard formulas and typical material densities. Results are estimates — always add a 5–10% overage when ordering materials.' },
+            { q: 'Can I use metric units?', a: 'Yes — every calculator supports both imperial (feet and inches) and metric (meters and centimeters). Switch units without losing your entered values.' },
+            { q: 'Can I save my calculations?', a: 'Your most recent inputs are automatically saved in your browser. Each calculator also keeps a history of your last 5 calculations locally.' },
+            { q: 'Can I share a calculation with someone?', a: 'Yes — use the Share button on any calculator to generate a URL with your values pre-filled.' },
+          ].map((item) => (
+            <details class="faq-item">
+              <summary class="faq-q">{item.q}</summary>
+              <p class="faq-a">{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
 </Layout>
+
+<style>
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.section { padding: 80px 0; }
+.section-soft { background: var(--color-canvas-soft); }
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.section-title {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -1.28px;
+  color: var(--color-ink);
+  margin-bottom: 40px;
+}
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.section-header .section-title { margin-bottom: 0; }
+
+/* Hero */
+.hero {
+  position: relative;
+  background: var(--color-canvas);
+  border-bottom: 1px solid var(--color-hairline);
+  overflow: hidden;
+  padding: 80px 0 100px;
+}
+.hero-mesh {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 20%, rgba(0,124,240,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 85% 60%, rgba(121,40,202,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,223,216,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-inner { position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  background: var(--color-canvas-soft);
+  border: 1px solid var(--color-hairline);
+  border-radius: 100px;
+  font-size: 12px;
+  color: var(--color-body);
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+}
+.hero-title {
+  font-size: 56px;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -2.8px;
+  color: var(--color-ink);
+  margin-bottom: 20px;
+  max-width: 720px;
+}
+.hero-sub {
+  font-size: 18px;
+  color: var(--color-body);
+  line-height: 28px;
+  margin-bottom: 32px;
+  max-width: 560px;
+}
+.hero-br { display: block; }
+.hero-cta-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 20px;
+  background: var(--color-ink);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 100px;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+.btn-primary:hover { opacity: 0.85; }
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 20px;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 100px;
+  text-decoration: none;
+  border: 1px solid var(--color-hairline);
+  transition: border-color 0.15s;
+}
+.btn-secondary:hover { border-color: var(--color-hairline-strong); }
+.hero-stats { display: flex; align-items: center; gap: 24px; }
+.stat-num {
+  display: block;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.8px;
+  color: var(--color-ink);
+  line-height: 1;
+}
+.stat-label { display: block; font-size: 12px; color: var(--color-mute); margin-top: 3px; }
+.stat-div { width: 1px; height: 32px; background: var(--color-hairline); }
+
+/* Categories */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.category-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-canvas);
+  border-radius: 10px;
+  padding: 16px 18px;
+  text-decoration: none;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.07);
+  transition: all 0.15s;
+}
+.category-card:hover {
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.07);
+  transform: translateY(-1px);
+}
+.category-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-canvas-soft-2);
+  border-radius: 8px;
+}
+.category-name { font-size: 14px; font-weight: 600; color: var(--color-ink); margin-bottom: 2px; }
+.category-count { font-size: 12px; color: var(--color-mute); }
+.category-text { flex: 1; }
+.category-arrow { color: var(--color-mute); margin-left: auto; flex-shrink: 0; transition: transform 0.15s; }
+.category-card:hover .category-arrow { transform: translateX(3px); }
+
+/* Featured */
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.featured-card {
+  background: var(--color-canvas);
+  border-radius: 10px;
+  padding: 20px;
+  text-decoration: none;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all 0.15s;
+}
+.featured-card:hover {
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.07);
+  transform: translateY(-2px);
+}
+.featured-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.featured-icon { font-size: 20px; }
+.featured-cat {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.featured-name { font-size: 15px; font-weight: 600; color: var(--color-ink); letter-spacing: -0.4px; line-height: 20px; }
+.featured-desc { font-size: 12px; color: var(--color-mute); line-height: 18px; flex: 1; }
+.featured-cta { font-size: 12px; font-weight: 500; color: var(--color-link); margin-top: 4px; }
+
+/* Why */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.why-card {
+  background: var(--color-canvas);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.07);
+}
+.why-icon { display: block; font-size: 24px; margin-bottom: 12px; }
+.why-title { font-size: 14px; font-weight: 600; color: var(--color-ink); margin-bottom: 6px; }
+.why-desc { font-size: 13px; color: var(--color-body); line-height: 20px; }
+
+/* Search */
+.search-wrap { position: relative; max-width: 280px; width: 100%; }
+.search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--color-mute); pointer-events: none; }
+.search-input {
+  width: 100%;
+  height: 38px;
+  border-radius: 6px;
+  border: 1px solid var(--color-hairline);
+  background: var(--color-canvas);
+  padding: 0 12px 0 34px;
+  font-size: 14px;
+  color: var(--color-ink);
+  transition: border 0.15s, box-shadow 0.15s;
+  font-family: inherit;
+}
+.search-input::placeholder { color: var(--color-mute); }
+.search-input:focus { outline: none; border-color: var(--color-ink); box-shadow: 0 0 0 3px rgba(23,23,23,0.06); }
+
+/* Directory */
+.dir-section { margin-bottom: 40px; }
+.dir-category-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-bottom: 12px;
+}
+.dir-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
+.dir-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-canvas);
+  border-radius: 8px;
+  padding: 12px 14px;
+  text-decoration: none;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.06);
+  transition: all 0.15s;
+}
+.dir-card:hover { box-shadow: 0 0 0 1px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.06); }
+.dir-icon {
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  background: var(--color-canvas-soft-2);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.dir-name { font-size: 13px; font-weight: 600; color: var(--color-ink); margin-bottom: 2px; }
+.dir-desc { font-size: 11px; color: var(--color-mute); line-height: 15px; }
+.dir-empty { text-align: center; padding: 40px; color: var(--color-mute); font-size: 14px; }
+
+/* FAQ */
+.faq-container { max-width: 760px; }
+.faq-list { border-radius: 10px; overflow: hidden; box-shadow: 0 0 0 1px rgba(0,0,0,0.07); }
+.faq-item { background: var(--color-canvas); border-bottom: 1px solid var(--color-hairline); }
+.faq-item:last-child { border-bottom: none; }
+.faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-ink);
+  cursor: pointer;
+  list-style: none;
+  transition: background 0.15s;
+}
+.faq-q:hover { background: var(--color-canvas-soft); }
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q::after { content: '+'; font-size: 18px; color: var(--color-mute); font-weight: 300; flex-shrink: 0; transition: transform 0.2s; }
+details[open] .faq-q::after { transform: rotate(45deg); }
+.faq-a { padding: 0 20px 16px; font-size: 14px; color: var(--color-body); line-height: 22px; margin: 0; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .featured-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .hero-title { font-size: 40px; letter-spacing: -1.8px; }
+  .hero-br { display: none; }
+  .categories-grid { grid-template-columns: repeat(2, 1fr); }
+  .section { padding: 56px 0; }
+  .section-title { font-size: 26px; margin-bottom: 24px; }
+}
+@media (max-width: 600px) {
+  .hero { padding: 56px 0 64px; }
+  .hero-title { font-size: 32px; letter-spacing: -1.2px; }
+  .hero-sub { font-size: 16px; }
+  .container { padding: 0 16px; }
+  .featured-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-grid { grid-template-columns: repeat(2, 1fr); }
+  .categories-grid { grid-template-columns: 1fr 1fr; }
+  .search-wrap { max-width: 100%; }
+  .section-header { flex-direction: column; align-items: flex-start; }
+}
+</style>
+
+<script>
+const searchEl = document.getElementById('calc-search') as HTMLInputElement | null;
+if (searchEl) {
+  searchEl.addEventListener('input', () => {
+    const q = searchEl.value.toLowerCase().trim();
+    const dirEmpty = document.getElementById('dir-empty');
+    const searchTerm = document.getElementById('search-term');
+    let anyVisible = false;
+
+    document.querySelectorAll('.dir-section').forEach((section) => {
+      const htmlSection = section as HTMLElement;
+      let sectionHasVisible = false;
+      section.querySelectorAll('.dir-card').forEach((card) => {
+        const htmlCard = card as HTMLElement;
+        const name = htmlCard.dataset.name || '';
+        const match = !q || name.includes(q);
+        htmlCard.hidden = !match;
+        if (match) sectionHasVisible = true;
+      });
+      htmlSection.hidden = !sectionHasVisible && !!q;
+      if (sectionHasVisible) anyVisible = true;
+    });
+
+    if (dirEmpty) dirEmpty.hidden = anyVisible || !q;
+    if (searchTerm) searchTerm.textContent = q;
+  });
+}
+</script>

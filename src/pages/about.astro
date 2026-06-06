@@ -1,0 +1,188 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import { calculators, categories } from '../data/calculators';
+---
+
+<Layout
+  title="About Us — Material Calculator Hub"
+  description="Material Calculator Hub provides free, accurate material calculators for construction, landscaping, and DIY projects. Learn about our mission and how our calculators work."
+  canonical="https://materialcalculatorhub.com/about"
+>
+  <NavBar />
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/" class="breadcrumb-link">Home</a>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current">About</span>
+        </nav>
+        <h1 class="page-title">About Material Calculator Hub</h1>
+        <p class="page-lead">
+          We build free, fast material calculators for homeowners, contractors, landscapers,
+          and builders who need accurate quantity estimates without the friction.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container content-layout">
+        <div class="content-body">
+
+          <h2>Our Mission</h2>
+          <p>
+            Getting material quantities wrong is expensive. Overordering wastes money and creates disposal problems.
+            Underordering causes project delays and emergency rush orders. Most existing calculator sites were built years
+            ago with poor mobile experiences, outdated designs, and formulas that haven't been verified against current
+            industry standards.
+          </p>
+          <p>
+            Material Calculator Hub exists to be the best free material calculation tool on the internet — built with
+            modern web technology, verified formulas, and a design that works as well on a phone at a job site as it
+            does on a desktop at home.
+          </p>
+
+          <h2>How Our Calculators Work</h2>
+          <p>
+            Every calculator on this site uses industry-standard formulas. Volume calculators use the standard
+            formula: <strong>Volume (cu yd) = Length × Width × Depth (in) ÷ 324</strong>. Weight estimates use
+            material-specific bulk density values sourced from manufacturer specifications and construction industry
+            references. Coverage calculators (paint, tile, drywall) use standard trade coverage rates.
+          </p>
+          <p>
+            All calculations happen instantly in your browser — there are no server requests, no delays, and no data
+            is sent anywhere. Your inputs are saved locally in your browser's localStorage for convenience and are
+            never transmitted to our servers.
+          </p>
+
+          <h2>What We Cover</h2>
+          <div class="cats-grid">
+            {categories.map((cat) => {
+              const count = calculators.filter(c => c.categorySlug === cat.slug).length;
+              return (
+                <a href={`/${cat.slug}`} class="cat-card">
+                  <span aria-hidden="true">{cat.icon}</span>
+                  <div>
+                    <p class="cat-name">{cat.name}</p>
+                    <p class="cat-count">{count} calculators</p>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+
+          <h2>Accuracy &amp; Limitations</h2>
+          <p>
+            Our calculators are designed for estimating purposes. Real-world material quantities depend on factors
+            that no calculator can fully account for: ground irregularities, compaction rates, material moisture
+            content, installation technique, and supplier-specific material weights.
+          </p>
+          <p>
+            We always recommend adding a 5–10% overage factor to any material order. Our calculators include a
+            configurable waste factor for exactly this reason. Always verify quantities with your material supplier
+            before placing large orders.
+          </p>
+
+          <h2>Privacy &amp; No Tracking</h2>
+          <p>
+            We do not collect personal information. We do not require accounts. We do not sell data.
+            We do not use invasive advertising. Your calculation history stays in your browser and never leaves
+            your device. See our <a href="/privacy">Privacy Policy</a> for full details.
+          </p>
+
+          <h2>Contact</h2>
+          <p>
+            Have a suggestion for a new calculator, found an error in a formula, or want to report a bug?
+            We'd love to hear from you. Visit our <a href="/contact">Contact page</a> to get in touch.
+          </p>
+
+        </div>
+
+        <aside class="content-aside">
+          <div class="aside-card">
+            <p class="aside-label">By the Numbers</p>
+            <div class="stats">
+              <div class="stat-item">
+                <span class="stat-n">{calculators.length}</span>
+                <span class="stat-l">Free calculators</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-n">{categories.length}</span>
+                <span class="stat-l">Categories</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-n">$0</span>
+                <span class="stat-l">Cost to use</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-n">0</span>
+                <span class="stat-l">Sign-ups required</span>
+              </div>
+            </div>
+          </div>
+          <div class="aside-card">
+            <p class="aside-label">Quick Links</p>
+            <ul class="aside-links">
+              <li><a href="/">All Calculators</a></li>
+              <li><a href="/landscaping">Landscaping</a></li>
+              <li><a href="/construction">Construction</a></li>
+              <li><a href="/pavers-outdoor">Pavers &amp; Outdoor</a></li>
+              <li><a href="/lumber-woodworking">Lumber &amp; Woodworking</a></li>
+              <li><a href="/privacy">Privacy Policy</a></li>
+              <li><a href="/terms">Terms of Use</a></li>
+              <li><a href="/contact">Contact</a></li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 64px 0 80px; }
+.hero { background: var(--color-canvas); border-bottom: 1px solid var(--color-hairline); padding: 40px 0 48px; }
+.breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-mute); margin-bottom: 24px; }
+.breadcrumb-link { color: var(--color-body); text-decoration: none; }
+.breadcrumb-link:hover { color: var(--color-ink); }
+.breadcrumb-sep { color: var(--color-hairline-strong); }
+.breadcrumb-current { color: var(--color-ink); font-weight: 500; }
+.page-title { font-size: 40px; font-weight: 600; letter-spacing: -1.8px; color: var(--color-ink); margin-bottom: 12px; }
+.page-lead { font-size: 18px; color: var(--color-body); line-height: 28px; max-width: 560px; }
+
+.content-layout { display: grid; grid-template-columns: 1fr 260px; gap: 48px; align-items: start; }
+.content-body h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.8px; color: var(--color-ink); margin-top: 40px; margin-bottom: 12px; }
+.content-body h2:first-child { margin-top: 0; }
+.content-body p { font-size: 15px; color: var(--color-body); line-height: 26px; margin-bottom: 14px; }
+.content-body a { color: var(--color-link); }
+.content-body strong { color: var(--color-ink); }
+
+.cats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
+.cat-card { display: flex; align-items: center; gap: 10px; background: var(--color-canvas-soft); border-radius: 8px; padding: 12px 14px; text-decoration: none; border: 1px solid var(--color-hairline); transition: all 0.15s; font-size: 20px; }
+.cat-card:hover { border-color: var(--color-hairline-strong); background: var(--color-canvas); }
+.cat-name { font-size: 14px; font-weight: 600; color: var(--color-ink); margin-bottom: 2px; }
+.cat-count { font-size: 12px; color: var(--color-mute); }
+
+.aside-card { background: var(--color-canvas); border-radius: 10px; padding: 16px; box-shadow: 0 0 0 1px rgba(0,0,0,0.07); margin-bottom: 16px; }
+.aside-label { font-family: var(--font-mono); font-size: 11px; color: var(--color-mute); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.stat-item { text-align: center; padding: 10px; background: var(--color-canvas-soft); border-radius: 6px; }
+.stat-n { display: block; font-size: 22px; font-weight: 600; letter-spacing: -0.8px; color: var(--color-ink); line-height: 1; margin-bottom: 4px; }
+.stat-l { font-size: 11px; color: var(--color-mute); }
+.aside-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+.aside-links a { display: block; padding: 5px 8px; border-radius: 4px; font-size: 13px; color: var(--color-body); text-decoration: none; transition: all 0.12s; }
+.aside-links a:hover { background: var(--color-canvas-soft-2); color: var(--color-ink); }
+
+@media (max-width: 768px) {
+  .content-layout { grid-template-columns: 1fr; }
+  .content-aside { display: none; }
+  .page-title { font-size: 32px; }
+}
+@media (max-width: 600px) { .container { padding: 0 16px; } }
+</style>

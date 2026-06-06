@@ -1,0 +1,697 @@
+---
+import type { Calculator } from '../data/calculators';
+
+interface Props {
+  calculator: Calculator;
+}
+const { calculator } = Astro.props;
+const mode = calculator.calcMode;
+
+// Which form fields to show
+const showLength = !['board-feet', 'fence'].includes(mode);
+const showWidth = true;
+const showDepth = ['volume', 'drywall', 'paint', 'roofing'].includes(mode);
+const showSpacing = mode === 'rebar';
+const showLumberLength = mode === 'board-feet';
+const showFenceLength = mode === 'fence';
+
+// Depth label
+const depthLabel =
+  mode === 'volume' ? 'Depth / Thickness' :
+  mode === 'drywall' || mode === 'paint' ? 'Wall / Ceiling Height' :
+  mode === 'roofing' ? 'Roof Rise (inches per ft)' :
+  'Depth';
+
+// Width/Length labels
+const widthLabel =
+  mode === 'board-feet' ? 'Width (inches)' :
+  mode === 'fence' ? 'Fence Length (ft)' :
+  'Width';
+
+const lengthLabel =
+  mode === 'retaining' ? 'Wall Height (ft)' :
+  mode === 'brick' || mode === 'block' ? 'Height (ft)' :
+  'Length';
+
+// Suffix
+const depthSuffix = mode === 'volume' ? 'in' :
+  mode === 'drywall' || mode === 'paint' ? 'ft' :
+  mode === 'roofing' ? 'in/ft' : 'in';
+---
+
+<div
+  class="calc-shell"
+  id="calc-shell"
+  data-mode={mode}
+  data-density={calculator.density || 0}
+  data-bag-weight={calculator.bagWeight || 0}
+  data-coverage={calculator.coverageRate || 0}
+  data-pieces-per-sqft={calculator.piecesPerSqFt || 0}
+  data-default-depth={calculator.defaultDepth || 4}
+>
+  <!-- Presets -->
+  {calculator.examples.length > 0 && (
+    <div class="calc-presets">
+      <p class="calc-presets-label">Quick presets</p>
+      <div class="calc-presets-row">
+        {calculator.examples.map((ex) => (
+          <button
+            class="calc-preset-btn"
+            data-width={ex.width}
+            data-length={ex.length}
+            data-depth={ex.depth}
+            type="button"
+          >
+            {ex.title}
+          </button>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <!-- Form -->
+  <div class="calc-form">
+    {/* Unit toggle — only for volume modes */}
+    {['volume', 'rebar'].includes(mode) && (
+      <div class="calc-unit-row">
+        <span class="calc-unit-label">Unit system</span>
+        <div class="calc-unit-toggle" role="group" aria-label="Unit system">
+          <button class="unit-btn unit-btn-active" data-unit="imperial" type="button">Imperial (ft/in)</button>
+          <button class="unit-btn" data-unit="metric" type="button">Metric (m/cm)</button>
+        </div>
+      </div>
+    )}
+
+    <div class="calc-fields">
+      {showLength && (
+        <div class="calc-field">
+          <label class="calc-label" for="field-length">{lengthLabel}</label>
+          <div class="calc-input-wrap">
+            <input class="calc-input" id="field-length" type="number" min="0" step="any" placeholder="0" data-field="length" />
+            <span class="calc-input-suffix" id="suffix-length">ft</span>
+          </div>
+        </div>
+      )}
+
+      <div class="calc-field">
+        <label class="calc-label" for="field-width">{widthLabel}</label>
+        <div class="calc-input-wrap">
+          <input class="calc-input" id="field-width" type="number" min="0" step="any" placeholder="0" data-field="width" />
+          <span class="calc-input-suffix" id="suffix-width">
+            {mode === 'board-feet' ? 'in' : 'ft'}
+          </span>
+        </div>
+      </div>
+
+      {showDepth && (
+        <div class="calc-field">
+          <label class="calc-label" for="field-depth">{depthLabel}</label>
+          <div class="calc-input-wrap">
+            <input
+              class="calc-input"
+              id="field-depth"
+              type="number"
+              min="0"
+              step="any"
+              placeholder={String(calculator.defaultDepth ?? 4)}
+              value={String(calculator.defaultDepth ?? 4)}
+              data-field="depth"
+            />
+            <span class="calc-input-suffix" id="suffix-depth">{depthSuffix}</span>
+          </div>
+        </div>
+      )}
+
+      {showLumberLength && (
+        <div class="calc-field">
+          <label class="calc-label" for="field-lumber-length">Length (feet)</label>
+          <div class="calc-input-wrap">
+            <input class="calc-input" id="field-lumber-length" type="number" min="0" step="any" placeholder="0" data-field="length" />
+            <span class="calc-input-suffix">ft</span>
+          </div>
+        </div>
+      )}
+
+      {showSpacing && (
+        <div class="calc-field">
+          <label class="calc-label" for="field-spacing">Rebar Spacing (in)</label>
+          <div class="calc-input-wrap">
+            <input class="calc-input" id="field-spacing" type="number" min="1" step="1" placeholder="12" value="12" data-field="spacing" />
+            <span class="calc-input-suffix">in</span>
+          </div>
+        </div>
+      )}
+    </div>
+
+    {/* Waste factor — volume and area-coverage modes */}
+    {['volume', 'rebar', 'paver', 'tile', 'brick', 'block', 'flooring', 'decking', 'drywall', 'paint', 'roofing', 'fence'].includes(mode) && (
+      <div class="calc-waste-row">
+        <span class="calc-label">Waste / overage</span>
+        <div class="calc-waste-options" role="group" aria-label="Waste factor">
+          <button class="waste-btn" data-waste="0" type="button">0%</button>
+          <button class="waste-btn waste-btn-active" data-waste="5" type="button">5%</button>
+          <button class="waste-btn" data-waste="10" type="button">10%</button>
+          <button class="waste-btn" data-waste="15" type="button">15%</button>
+        </div>
+      </div>
+    )}
+  </div>
+
+  <!-- Results -->
+  <div class="calc-results" id="calc-results" aria-live="polite" aria-atomic="true">
+    <div class="calc-results-empty" id="results-empty">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="4" y="4" width="24" height="24" rx="4" stroke="#d4d4d4" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <path d="M16 11v10M11 16h10" stroke="#d4d4d4" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <p>Enter dimensions above to see your results</p>
+    </div>
+    <div class="calc-results-content" id="results-content" hidden>
+      <div class="calc-results-grid" id="results-grid"></div>
+      <div class="calc-results-actions">
+        <button class="calc-action-btn" id="btn-copy" type="button">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="4" y="4" width="8" height="8" rx="1.5" stroke="currentColor" stroke-width="1.25"/><path d="M2 10V2.75A.75.75 0 0 1 2.75 2H10" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+          Copy
+        </button>
+        <button class="calc-action-btn" id="btn-share" type="button">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="11" cy="3" r="1.75" stroke="currentColor" stroke-width="1.25"/><circle cx="3" cy="7" r="1.75" stroke="currentColor" stroke-width="1.25"/><circle cx="11" cy="11" r="1.75" stroke="currentColor" stroke-width="1.25"/><path d="M4.7 6.1 9.3 4M4.7 7.9l4.6 2.1" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+          Share
+        </button>
+        <button class="calc-action-btn" id="btn-print" type="button">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="5" width="10" height="7" rx="1.5" stroke="currentColor" stroke-width="1.25"/><path d="M4 5V2.75A.75.75 0 0 1 4.75 2h4.5a.75.75 0 0 1 .75.75V5" stroke="currentColor" stroke-width="1.25"/><path d="M4 9h6M4 11h4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/></svg>
+          Print
+        </button>
+        <button class="calc-action-btn calc-action-btn-ghost" id="btn-reset" type="button">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 1 0 1-3H2V2" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Reset
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div class="calc-history" id="calc-history" hidden>
+    <p class="calc-history-label">Recent calculations</p>
+    <div class="calc-history-list" id="calc-history-list"></div>
+    <button class="calc-history-clear" id="btn-clear-history" type="button">Clear history</button>
+  </div>
+</div>
+
+<style>
+.calc-shell {
+  background: var(--color-canvas);
+  border-radius: 12px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04), 0 8px 16px -4px rgba(0,0,0,0.06);
+  overflow: hidden;
+}
+.calc-presets { padding: 16px 20px; border-bottom: 1px solid var(--color-hairline); }
+.calc-presets-label { font-family: var(--font-mono); font-size: 11px; color: var(--color-mute); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+.calc-presets-row { display: flex; gap: 6px; flex-wrap: wrap; }
+.calc-preset-btn {
+  padding: 5px 12px; border-radius: 100px; border: 1px solid var(--color-hairline);
+  background: var(--color-canvas-soft); color: var(--color-body); font-size: 12px;
+  font-weight: 500; cursor: pointer; transition: all 0.15s; letter-spacing: -0.2px; font-family: inherit;
+}
+.calc-preset-btn:hover { border-color: var(--color-hairline-strong); color: var(--color-ink); background: var(--color-canvas); }
+
+.calc-form { padding: 20px; display: flex; flex-direction: column; gap: 16px; }
+.calc-unit-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.calc-unit-label { font-size: 13px; color: var(--color-body); font-weight: 500; }
+.calc-unit-toggle { display: flex; gap: 4px; background: var(--color-canvas-soft-2); border-radius: 8px; padding: 3px; }
+.unit-btn { padding: 5px 10px; border-radius: 6px; border: none; background: transparent; color: var(--color-mute); font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; white-space: nowrap; font-family: inherit; }
+.unit-btn-active { background: var(--color-canvas); color: var(--color-ink); box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06); }
+
+.calc-fields { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.calc-field { display: flex; flex-direction: column; gap: 6px; }
+.calc-label { font-size: 12px; font-weight: 500; color: var(--color-body); letter-spacing: -0.1px; }
+.calc-input-wrap { position: relative; display: flex; align-items: center; }
+.calc-input {
+  width: 100%; height: 44px; border-radius: 6px; border: 1px solid var(--color-hairline);
+  background: var(--color-canvas-soft); color: var(--color-ink); font-size: 16px;
+  font-weight: 500; padding: 0 40px 0 12px; transition: border 0.15s, box-shadow 0.15s;
+  appearance: none; -webkit-appearance: none; font-family: inherit;
+}
+.calc-input::placeholder { color: var(--color-mute); font-weight: 400; }
+.calc-input:focus { outline: none; border-color: var(--color-ink); background: var(--color-canvas); box-shadow: 0 0 0 3px rgba(23,23,23,0.06); }
+.calc-input-suffix { position: absolute; right: 10px; font-size: 11px; font-weight: 500; color: var(--color-mute); font-family: var(--font-mono); pointer-events: none; }
+
+.calc-waste-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.calc-waste-options { display: flex; gap: 4px; }
+.waste-btn { padding: 4px 10px; border-radius: 100px; border: 1px solid var(--color-hairline); background: transparent; color: var(--color-body); font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+.waste-btn-active { background: var(--color-ink); color: #fff; border-color: var(--color-ink); }
+.waste-btn:hover:not(.waste-btn-active) { border-color: var(--color-hairline-strong); color: var(--color-ink); }
+
+.calc-results { border-top: 1px solid var(--color-hairline); padding: 20px; background: var(--color-canvas-soft); min-height: 120px; }
+.calc-results-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 80px; color: var(--color-mute); font-size: 13px; }
+.calc-results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-bottom: 16px; }
+.result-item { background: var(--color-canvas); border-radius: 8px; padding: 12px 14px; box-shadow: 0 0 0 1px rgba(0,0,0,0.06); }
+.result-value { font-size: 20px; font-weight: 600; color: var(--color-ink); letter-spacing: -0.6px; line-height: 1; margin-bottom: 4px; }
+.result-label { font-family: var(--font-mono); font-size: 11px; color: var(--color-mute); text-transform: uppercase; letter-spacing: 0.04em; }
+.result-item-primary .result-value { font-size: 28px; letter-spacing: -1px; }
+
+.calc-results-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.calc-action-btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--color-hairline); background: var(--color-canvas); color: var(--color-body); font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; font-family: inherit; }
+.calc-action-btn:hover { border-color: var(--color-hairline-strong); color: var(--color-ink); }
+.calc-action-btn-ghost { background: transparent; border-color: transparent; }
+
+.calc-history { border-top: 1px solid var(--color-hairline); padding: 16px 20px; }
+.calc-history-label { font-family: var(--font-mono); font-size: 11px; color: var(--color-mute); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+.calc-history-list { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+.history-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: 6px; background: var(--color-canvas-soft); font-size: 12px; color: var(--color-body); }
+.history-dims { font-family: var(--font-mono); color: var(--color-mute); font-size: 11px; }
+.calc-history-clear { font-size: 12px; color: var(--color-mute); background: none; border: none; cursor: pointer; padding: 0; text-decoration: underline; font-family: inherit; }
+.calc-history-clear:hover { color: var(--color-ink); }
+
+@media (max-width: 600px) {
+  .calc-fields { grid-template-columns: 1fr 1fr; }
+  .calc-unit-row { flex-direction: column; align-items: flex-start; }
+  .calc-results-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+
+<script>
+(function () {
+  const shell = document.getElementById('calc-shell');
+  if (!shell) return;
+
+  const mode = shell.dataset.mode || 'volume';
+  const density = parseFloat(shell.dataset.density || '0');
+  const bagWeight = parseFloat(shell.dataset.bagWeight || '0');
+  const coverageRate = parseFloat(shell.dataset.coverage || '400');
+  const piecesPerSqFt = parseFloat(shell.dataset.piecesPerSqft || '0');
+  const slug = window.location.pathname.split('/').pop() || '';
+
+  let unitSystem = 'imperial';
+  let wasteFactor = 5;
+
+  // ── Storage ─────────────────────────────────────────────────
+  function storageKey() { return 'calc-state-' + slug; }
+  function historyKey() { return 'calc-hist-' + slug; }
+
+  function loadSaved() {
+    try {
+      const d = JSON.parse(localStorage.getItem(storageKey()) || 'null');
+      if (!d) return;
+      ['length', 'width', 'depth', 'spacing'].forEach(f => { if (d[f] != null) setField(f, d[f]); });
+      if (d.unit) { unitSystem = d.unit; applyUnitUI(); }
+      if (d.waste != null) { wasteFactor = d.waste; applyWasteUI(); }
+    } catch (_) {}
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem(storageKey(), JSON.stringify({
+        length: getField('length'), width: getField('width'),
+        depth: getField('depth'), spacing: getField('spacing'),
+        unit: unitSystem, waste: wasteFactor,
+      }));
+    } catch (_) {}
+  }
+
+  // ── Field helpers ───────────────────────────────────────────
+  function setField(name, val) {
+    const el = shell.querySelector('[data-field="' + name + '"]');
+    if (el) el.value = String(val);
+  }
+  function getField(name) {
+    const el = shell.querySelector('[data-field="' + name + '"]');
+    return el ? el.value : '';
+  }
+  function num(name) { const v = parseFloat(getField(name)); return isNaN(v) || v < 0 ? 0 : v; }
+
+  // ── Unit conversion ─────────────────────────────────────────
+  function applyUnitUI() {
+    shell.querySelectorAll('.unit-btn').forEach(b => b.classList.toggle('unit-btn-active', b.dataset.unit === unitSystem));
+    const sfx = unitSystem === 'metric' ? 'm' : 'ft';
+    const dsfx = unitSystem === 'metric' ? 'cm' : 'in';
+    const sfxL = document.getElementById('suffix-length');
+    const sfxW = document.getElementById('suffix-width');
+    const sfxD = document.getElementById('suffix-depth');
+    if (sfxL) sfxL.textContent = sfx;
+    if (sfxW && mode === 'volume') sfxW.textContent = sfx;
+    if (sfxD && mode === 'volume') sfxD.textContent = dsfx;
+  }
+
+  function toFt(v) { return unitSystem === 'metric' ? v * 3.28084 : v; }
+  function toIn(v) { return unitSystem === 'metric' ? v * 0.393701 : v; }
+
+  // ── Format ──────────────────────────────────────────────────
+  function fmt(n, dec = 2) {
+    if (n === 0) return '0';
+    if (n >= 10000) return Math.round(n).toLocaleString();
+    if (n >= 100) return n.toLocaleString('en-US', { maximumFractionDigits: 1 });
+    return n.toLocaleString('en-US', { maximumFractionDigits: dec });
+  }
+
+  // ── Calculation engine ──────────────────────────────────────
+  function calculate() {
+    const grid = document.getElementById('results-grid');
+    const empty = document.getElementById('results-empty');
+    const content = document.getElementById('results-content');
+    if (!grid || !empty || !content) return;
+
+    const L = toFt(num('length'));
+    const W = toFt(num('width'));
+    const D = num('depth');
+    const spacing = num('spacing') || 12;
+    const wf = 1 + wasteFactor / 100;
+    const results = [];
+
+    const isEmpty = (L === 0 && W === 0) || (mode === 'board-feet' && (W === 0 || L === 0 || D === 0));
+    if (isEmpty) { empty.hidden = false; content.hidden = true; return; }
+
+    // ── Volume (gravel, concrete, sand, topsoil, etc.) ──
+    if (mode === 'volume') {
+      const dIn = toIn(D);
+      const volCuFt = L * W * (dIn / 12);
+      if (volCuFt <= 0) { empty.hidden = false; content.hidden = true; return; }
+      const volCuYd = volCuFt / 27;
+      const vol = volCuYd * wf;
+      const lbs = density > 0 ? vol * density : 0;
+      const tons = lbs / 2000;
+      const bags = bagWeight > 0 ? Math.ceil(lbs / bagWeight) : 0;
+      results.push({ label: 'Cubic Yards', value: fmt(vol), primary: true });
+      results.push({ label: 'Cubic Feet', value: fmt(volCuFt * wf, 1) });
+      results.push({ label: 'Cubic Meters', value: fmt(volCuFt * wf * 0.0283168, 2) });
+      if (tons > 0) results.push({ label: 'Tons', value: fmt(tons, 1) });
+      if (lbs > 0) results.push({ label: 'Pounds', value: Math.round(lbs).toLocaleString() });
+      if (bags > 0) results.push({ label: bagWeight + ' lb Bags', value: bags.toLocaleString() });
+      pushHistory({ dims: L.toFixed(1) + '×' + W.toFixed(1) + '×' + dIn.toFixed(0) + '"', result: fmt(vol) + ' yd³' });
+    }
+
+    // ── Board feet ──────────────────────────────────────────
+    else if (mode === 'board-feet') {
+      // D = thickness (in), W = width (in), L = length (ft)
+      const bf = (D * W * L) / 12 * wf;
+      results.push({ label: 'Board Feet', value: fmt(bf, 1), primary: true });
+      results.push({ label: 'Cu Inches', value: fmt(D * W * L * 12, 0) });
+      results.push({ label: 'Linear Feet', value: fmt(L) });
+    }
+
+    // ── Rebar ───────────────────────────────────────────────
+    else if (mode === 'rebar') {
+      const barsX = Math.floor(W * 12 / spacing) + 1;
+      const barsY = Math.floor(L * 12 / spacing) + 1;
+      const linFt = (barsX * L) + (barsY * W);
+      results.push({ label: 'Total Linear Ft', value: fmt(linFt * wf, 0), primary: true });
+      results.push({ label: 'Bars X-dir', value: String(barsX) });
+      results.push({ label: 'Bars Y-dir', value: String(barsY) });
+      results.push({ label: 'Area', value: fmt(W * L, 1) + ' sq ft' });
+      pushHistory({ dims: L.toFixed(0) + '×' + W.toFixed(0) + ' @' + spacing + '"', result: fmt(linFt * wf, 0) + ' lin ft' });
+    }
+
+    // ── Paver ───────────────────────────────────────────────
+    else if (mode === 'paver') {
+      const area = L * W;
+      if (area <= 0) { empty.hidden = false; content.hidden = true; return; }
+      results.push({ label: 'Area', value: fmt(area, 1) + ' sq ft', primary: true });
+      results.push({ label: '4×8" Pavers', value: Math.ceil(area * 4.5 * wf).toLocaleString() });
+      results.push({ label: '6×6" Pavers', value: Math.ceil(area * 4 * wf).toLocaleString() });
+      results.push({ label: '12×12" Pavers', value: Math.ceil(area * wf).toLocaleString() });
+      results.push({ label: 'Sq Meters', value: fmt(area * 0.0929, 1) });
+      pushHistory({ dims: L.toFixed(0) + '×' + W.toFixed(0), result: fmt(area, 0) + ' sq ft' });
+    }
+
+    // ── Retaining wall ──────────────────────────────────────
+    else if (mode === 'retaining') {
+      const faceArea = L * W;
+      if (faceArea <= 0) { empty.hidden = false; content.hidden = true; return; }
+      const blocks = Math.ceil(faceArea * (12 / 1) * (1 / 0.5) / 1 * wf);
+      // L=length, W=height: 12"×6" face = 0.5 sqft per block
+      const blocksCalc = Math.ceil((faceArea / 0.5) * wf);
+      results.push({ label: 'Wall Area', value: fmt(faceArea, 1) + ' sq ft', primary: true });
+      results.push({ label: 'Blocks (12×6")', value: blocksCalc.toLocaleString() });
+      results.push({ label: 'Gravel (cu yd)', value: fmt(L * 1 * W / 27, 1) });
+    }
+
+    // ── Paint ───────────────────────────────────────────────
+    else if (mode === 'paint') {
+      // L=length, W=width, D=height of room
+      const perim = 2 * (L + W);
+      const wallArea = perim * D;
+      if (wallArea <= 0) { empty.hidden = false; content.hidden = true; return; }
+      const rate = coverageRate || 400;
+      const galOneCoat = wallArea / rate;
+      const galTwoCoat = galOneCoat * 2;
+      results.push({ label: '1 Coat (gal)', value: fmt(galOneCoat * wf, 1), primary: true });
+      results.push({ label: '2 Coats (gal)', value: fmt(galTwoCoat * wf, 1) });
+      results.push({ label: 'Wall Area', value: fmt(wallArea, 0) + ' sq ft' });
+      results.push({ label: 'Quarts (1 coat)', value: Math.ceil(galOneCoat * wf * 4).toLocaleString() });
+      pushHistory({ dims: L.toFixed(0) + '×' + W.toFixed(0) + '×' + D + 'ft', result: fmt(galOneCoat * wf, 1) + ' gal/coat' });
+    }
+
+    // ── Drywall ─────────────────────────────────────────────
+    else if (mode === 'drywall') {
+      const perim = 2 * (L + W);
+      const wallArea = perim * D;
+      const ceilArea = L * W;
+      const totalArea = wallArea + ceilArea;
+      if (totalArea <= 0) { empty.hidden = false; content.hidden = true; return; }
+      const sheets = Math.ceil((totalArea / 32) * wf);
+      results.push({ label: 'Sheets (4×8)', value: String(sheets), primary: true });
+      results.push({ label: 'Wall Area', value: fmt(wallArea, 0) + ' sq ft' });
+      results.push({ label: 'Ceiling Area', value: fmt(ceilArea, 0) + ' sq ft' });
+      results.push({ label: 'Total Area', value: fmt(totalArea, 0) + ' sq ft' });
+      pushHistory({ dims: L.toFixed(0) + '×' + W.toFixed(0) + '×' + D + 'ft', result: sheets + ' sheets' });
+    }
+
+    // ── Roofing ─────────────────────────────────────────────
+    else if (mode === 'roofing') {
+      // D = rise in inches per foot of run (e.g. 4 for 4:12 pitch)
+      const pitchMult = Math.sqrt(1 + (D / 12) ** 2);
+      const footprintArea = L * W;
+      const roofArea = footprintArea * pitchMult;
+      if (roofArea <= 0) { empty.hidden = false; content.hidden = true; return; }
+      const squares = roofArea / 100;
+      const bundles = Math.ceil(squares * 3 * wf);
+      results.push({ label: 'Roofing Squares', value: fmt(squares, 1), primary: true });
+      results.push({ label: 'Shingle Bundles', value: String(bundles) });
+      results.push({ label: 'Roof Area', value: fmt(roofArea, 0) + ' sq ft' });
+      results.push({ label: 'Footprint', value: fmt(footprintArea, 0) + ' sq ft' });
+      pushHistory({ dims: L.toFixed(0) + '×' + W.toFixed(0) + ' ' + D + ':12', result: fmt(squares, 1) + ' squares' });
+    }
+
+    // ── Brick ───────────────────────────────────────────────
+    else if (mode === 'brick') {
+      const area = L * W;
+      if (area <= 0) { empty.hidden = false; content.hidden = true; return; }
+      const ppf = piecesPerSqFt || 7.5;
+      const bricks = Math.ceil(area * ppf * wf);
+      results.push({ label: 'Bricks Needed', value: bricks.toLocaleString(), primary: true });
+      results.push({ label: 'Area', value: fmt(area, 1) + ' sq ft' });
+      results.push({ label: 'Mortar Bags', value: Math.ceil(bricks / 45).toLocaleString() });
+      pushHistory({ dims: L.toFixed(0) + '×' + W.toFixed(0), result: bricks.toLocaleString() + ' bricks' });
+    }
+
+    // ── Block (CMU) ─────────────────────────────────────────
+    else if (mode === 'block') {
+      const area = L * W;
+      if (area <= 0) { empty.hidden = false; content.hidden = true; return; }
+      const ppf = piecesPerSqFt || 1.125;
+      const blocks = Math.ceil(area * ppf * wf);
+      results.push({ label: 'CMU Blocks', value: blocks.toLocaleString(), primary: true });
+      results.push({ label: 'Wall Area', value: fmt(area, 1) + ' sq ft' });
+      results.push({ label: 'Mortar Bags', value: Math.ceil(blocks / 30).toLocaleString() });
+      pushHistory({ dims: L.toFixed(0) + '×' + W.toFixed(0), result: blocks.toLocaleString() + ' blocks' });
+    }
+
+    // ── Tile ────────────────────────────────────────────────
+    else if (mode === 'tile') {
+      const area = L * W;
+      if (area <= 0) { empty.hidden = false; content.hidden = true; return; }
+      // Default: 12×12 = 1 sq ft per tile
+      const tileSqFt = 1; // user can extend later; default 12×12
+      const tiles = Math.ceil(area / tileSqFt * wf);
+      results.push({ label: 'Tiles (12×12")', value: tiles.toLocaleString(), primary: true });
+      results.push({ label: 'Area', value: fmt(area, 1) + ' sq ft' });
+      results.push({ label: 'Sq Meters', value: fmt(area * 0.0929, 2) });
+      results.push({ label: 'With 15% waste', value: Math.ceil(area / tileSqFt * 1.15).toLocaleString() });
+      pushHistory({ dims: L.toFixed(0) + '×' + W.toFixed(0), result: tiles.toLocaleString() + ' tiles' });
+    }
+
+    // ── Fence ───────────────────────────────────────────────
+    else if (mode === 'fence') {
+      // W = fence length (LF), L = fence height (ft)
+      const linFt = num('width');
+      const height = num('length') || 6;
+      if (linFt <= 0) { empty.hidden = false; content.hidden = true; return; }
+      const posts = Math.floor(linFt / 8) + 1;
+      const rails = (posts - 1) * 2;
+      const pickets = Math.ceil(linFt * 3.43 * wf); // 3.5" picket + 0.5" gap
+      const postBoards = posts; // 4×4×8 or 4×4×10 posts
+      results.push({ label: 'Fence Posts', value: String(posts), primary: true });
+      results.push({ label: 'Rails (2 per span)', value: String(rails) });
+      results.push({ label: 'Pickets (3.5")', value: pickets.toLocaleString() });
+      results.push({ label: 'Fence Length', value: fmt(linFt, 0) + ' ft' });
+      pushHistory({ dims: linFt.toFixed(0) + ' LF × ' + height + 'ft', result: posts + ' posts, ' + pickets + ' pickets' });
+    }
+
+    // ── Flooring ────────────────────────────────────────────
+    else if (mode === 'flooring') {
+      const area = L * W;
+      if (area <= 0) { empty.hidden = false; content.hidden = true; return; }
+      const areaWithWaste = area * wf;
+      const boxCoverage = 25; // sq ft per box (typical)
+      const boxes = Math.ceil(areaWithWaste / boxCoverage);
+      results.push({ label: 'Total Sq Ft', value: fmt(areaWithWaste, 1), primary: true });
+      results.push({ label: 'Boxes (~25 sqft)', value: String(boxes) });
+      results.push({ label: 'Sq Meters', value: fmt(areaWithWaste * 0.0929, 2) });
+      results.push({ label: 'Room Area', value: fmt(area, 0) + ' sq ft' });
+      pushHistory({ dims: L.toFixed(0) + '×' + W.toFixed(0), result: fmt(areaWithWaste, 1) + ' sq ft' });
+    }
+
+    // ── Decking ─────────────────────────────────────────────
+    else if (mode === 'decking') {
+      const area = L * W;
+      if (area <= 0) { empty.hidden = false; content.hidden = true; return; }
+      // 5/4×6 board: 5.5" actual width + 0.125" gap = 5.625" per board
+      const boardWidthFt = 5.625 / 12;
+      const boardLengthFt = 16; // assume 16 ft boards
+      const rowsNeeded = Math.ceil(W / boardWidthFt);
+      const boardsPerRow = Math.ceil(L / boardLengthFt);
+      const totalBoards = Math.ceil(rowsNeeded * boardsPerRow * wf);
+      results.push({ label: 'Deck Boards', value: String(totalBoards), primary: true });
+      results.push({ label: 'Rows', value: String(rowsNeeded) });
+      results.push({ label: 'Deck Area', value: fmt(area, 0) + ' sq ft' });
+      results.push({ label: 'Linear Feet', value: fmt(rowsNeeded * L, 0) });
+      pushHistory({ dims: L.toFixed(0) + '×' + W.toFixed(0), result: totalBoards + ' boards' });
+    }
+
+    // ── Render ──────────────────────────────────────────────
+    if (results.length === 0) { empty.hidden = false; content.hidden = true; return; }
+
+    grid.innerHTML = results.map(r => `
+      <div class="result-item${r.primary ? ' result-item-primary' : ''}">
+        <div class="result-value">${r.value}</div>
+        <div class="result-label">${r.label}</div>
+      </div>
+    `).join('');
+
+    empty.hidden = true;
+    content.hidden = false;
+    saveState();
+    renderHistory();
+  }
+
+  // ── History ─────────────────────────────────────────────────
+  function pushHistory(entry) {
+    try {
+      const h = JSON.parse(localStorage.getItem(historyKey()) || '[]');
+      h.unshift(entry);
+      localStorage.setItem(historyKey(), JSON.stringify(h.slice(0, 5)));
+    } catch (_) {}
+  }
+
+  function renderHistory() {
+    const container = document.getElementById('calc-history');
+    const list = document.getElementById('calc-history-list');
+    if (!container || !list) return;
+    try {
+      const h = JSON.parse(localStorage.getItem(historyKey()) || '[]');
+      if (h.length === 0) { container.hidden = true; return; }
+      container.hidden = false;
+      list.innerHTML = h.map(e => `
+        <div class="history-item">
+          <span>${e.result}</span>
+          <span class="history-dims">${e.dims}</span>
+        </div>
+      `).join('');
+    } catch (_) {}
+  }
+
+  // ── Event wiring ─────────────────────────────────────────────
+  shell.querySelectorAll('[data-field]').forEach(el => el.addEventListener('input', calculate));
+
+  shell.querySelectorAll('.unit-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const prev = unitSystem;
+      unitSystem = btn.dataset.unit;
+      if (prev !== unitSystem) {
+        ['length', 'width'].forEach(f => {
+          const v = parseFloat(getField(f));
+          if (!isNaN(v) && v > 0) setField(f, (unitSystem === 'metric' ? v * 0.3048 : v * 3.28084).toFixed(2));
+        });
+        const d = parseFloat(getField('depth'));
+        if (!isNaN(d) && d > 0 && mode === 'volume') {
+          setField('depth', (unitSystem === 'metric' ? d * 2.54 : d * 0.393701).toFixed(1));
+        }
+      }
+      applyUnitUI();
+      calculate();
+    });
+  });
+
+  shell.querySelectorAll('.waste-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      wasteFactor = parseInt(btn.dataset.waste);
+      applyWasteUI();
+      calculate();
+    });
+  });
+
+  function applyWasteUI() {
+    shell.querySelectorAll('.waste-btn').forEach(b => b.classList.toggle('waste-btn-active', parseInt(b.dataset.waste) === wasteFactor));
+  }
+
+  shell.querySelectorAll('.calc-preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.dataset.length) setField('length', btn.dataset.length);
+      if (btn.dataset.width) setField('width', btn.dataset.width);
+      if (btn.dataset.depth && parseFloat(btn.dataset.depth) > 0) setField('depth', btn.dataset.depth);
+      calculate();
+    });
+  });
+
+  document.getElementById('btn-reset')?.addEventListener('click', () => {
+    shell.querySelectorAll('[data-field]').forEach(el => { el.value = ''; });
+    const dflt = shell.dataset.defaultDepth;
+    if (dflt) setField('depth', dflt);
+    calculate();
+  });
+
+  document.getElementById('btn-copy')?.addEventListener('click', () => {
+    const grid = document.getElementById('results-grid');
+    if (!grid) return;
+    const text = [...grid.querySelectorAll('.result-item')].map(item =>
+      (item.querySelector('.result-label')?.textContent || '') + ': ' + (item.querySelector('.result-value')?.textContent || '')
+    ).join('\n');
+    navigator.clipboard?.writeText(text).then(() => {
+      const btn = document.getElementById('btn-copy');
+      if (!btn) return;
+      const orig = btn.innerHTML;
+      btn.textContent = '✓ Copied!';
+      setTimeout(() => { btn.innerHTML = orig; }, 1500);
+    });
+  });
+
+  document.getElementById('btn-share')?.addEventListener('click', () => {
+    const p = new URLSearchParams();
+    p.set('l', getField('length')); p.set('w', getField('width')); p.set('d', getField('depth')); p.set('u', unitSystem);
+    navigator.clipboard?.writeText(location.origin + location.pathname + '?' + p.toString()).then(() => {
+      const btn = document.getElementById('btn-share');
+      if (!btn) return;
+      const orig = btn.innerHTML;
+      btn.textContent = '✓ Link copied!';
+      setTimeout(() => { btn.innerHTML = orig; }, 1500);
+    });
+  });
+
+  document.getElementById('btn-print')?.addEventListener('click', () => window.print());
+
+  document.getElementById('btn-clear-history')?.addEventListener('click', () => {
+    try { localStorage.removeItem(historyKey()); } catch (_) {}
+    renderHistory();
+  });
+
+  // ── URL prefill ──────────────────────────────────────────────
+  const p = new URLSearchParams(location.search);
+  if (p.get('l')) setField('length', p.get('l'));
+  if (p.get('w')) setField('width', p.get('w'));
+  if (p.get('d')) setField('depth', p.get('d'));
+  if (p.get('u')) { unitSystem = p.get('u'); applyUnitUI(); }
+
+  loadSaved();
+  calculate();
+  renderHistory();
+})();
+</script>

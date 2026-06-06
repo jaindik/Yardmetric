@@ -1,0 +1,277 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import { calculators, categories, getPopularCalculators } from '../data/calculators';
+
+export function getStaticPaths() {
+  return categories.map((cat) => ({
+    params: { category: cat.slug },
+    props: { category: cat },
+  }));
+}
+
+const { category } = Astro.props;
+const catCalcs = calculators.filter((c) => c.categorySlug === category.slug);
+const otherCats = categories.filter((c) => c.slug !== category.slug);
+const popular = getPopularCalculators(6).filter(c => c.categorySlug !== category.slug).slice(0, 4);
+
+const structuredData = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `${category.name} Calculators`,
+  description: category.description,
+  url: `https://materialcalculatorhub.com/${category.slug}`,
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://materialcalculatorhub.com/' },
+      { '@type': 'ListItem', position: 2, name: category.name, item: `https://materialcalculatorhub.com/${category.slug}` },
+    ],
+  },
+  hasPart: catCalcs.map((c) => ({
+    '@type': 'WebApplication',
+    name: c.name,
+    url: `https://materialcalculatorhub.com/calculators/${c.slug}`,
+  })),
+  mainEntity: {
+    '@type': 'FAQPage',
+    mainEntity: category.faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a },
+    })),
+  },
+});
+---
+
+<Layout
+  title={`${category.name} Calculators — Free Online Tools | Material Calculator Hub`}
+  description={`Free ${category.name.toLowerCase()} calculators for ${catCalcs.map(c => c.name).slice(0,5).join(', ')}, and more. Instant, accurate results in cubic yards, tons, and bags.`}
+  canonical={`https://materialcalculatorhub.com/${category.slug}`}
+>
+  <Fragment slot="structured-data">
+    <script type="application/ld+json" set:html={structuredData} />
+  </Fragment>
+
+  <NavBar />
+
+  <main>
+    <!-- Hero -->
+    <section class="cat-hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/" class="breadcrumb-link">Home</a>
+          <span class="breadcrumb-sep" aria-hidden="true">/</span>
+          <span class="breadcrumb-current" aria-current="page">{category.name} Calculators</span>
+        </nav>
+        <div class="cat-hero-inner">
+          <span class="cat-icon" aria-hidden="true">{category.icon}</span>
+          <div>
+            <h1 class="cat-title">{category.name} Calculators</h1>
+            <p class="cat-desc">{category.description}</p>
+            <p class="cat-count">{catCalcs.length} free calculators · Instant results · No signup</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Calculator grid -->
+    <section class="section">
+      <div class="container">
+        <div class="calc-grid">
+          {catCalcs.map((calc) => (
+            <a href={`/calculators/${calc.slug}`} class="calc-card">
+              <div class="calc-card-top">
+                <span class="calc-card-icon" aria-hidden="true">{calc.icon}</span>
+              </div>
+              <p class="calc-card-name">{calc.name}</p>
+              <p class="calc-card-desc">{calc.shortDesc}</p>
+              <span class="calc-card-cta">Open Calculator →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Authority content -->
+    <section class="section section-soft">
+      <div class="container content-cols">
+        <div class="content-main">
+          <h2 class="content-h2">About {category.name} Calculators</h2>
+          {category.intro.split('\n\n').map((para) => (
+            <p class="content-p">{para}</p>
+          ))}
+
+          <h2 class="content-h2" style="margin-top:40px">How to Use These Calculators</h2>
+          <p class="content-p">{category.guide}</p>
+
+          <!-- All calcs in this category — anchor links for internal linking -->
+          <h2 class="content-h2" style="margin-top:40px">All {category.name} Calculators</h2>
+          <ul class="calc-list">
+            {catCalcs.map((calc) => (
+              <li>
+                <a href={`/calculators/${calc.slug}`} class="calc-list-link">
+                  <span aria-hidden="true">{calc.icon}</span>
+                  <span><strong>{calc.name}</strong> — {calc.shortDesc}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Sidebar quick links -->
+        <aside class="content-sidebar">
+          <div class="sidebar-card">
+            <p class="sidebar-label">Quick Links</p>
+            <ul class="sidebar-links">
+              {catCalcs.map((calc) => (
+                <li>
+                  <a href={`/calculators/${calc.slug}`}>{calc.name}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {popular.length > 0 && (
+            <div class="sidebar-card">
+              <p class="sidebar-label">Popular Across Site</p>
+              <ul class="sidebar-links">
+                {popular.map((calc) => (
+                  <li>
+                    <a href={`/calculators/${calc.slug}`}>{calc.name}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </aside>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+      <div class="container faq-container">
+        <p class="section-eyebrow">FAQ</p>
+        <h2 class="section-title">{category.name} Calculator Questions</h2>
+        <div class="faq-list">
+          {category.faqs.map((faq) => (
+            <details class="faq-item">
+              <summary class="faq-q">{faq.q}</summary>
+              <p class="faq-a">{faq.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Other categories -->
+    <section class="section section-soft">
+      <div class="container">
+        <p class="section-eyebrow">More Calculators</p>
+        <h2 class="section-title">Other Categories</h2>
+        <div class="other-grid">
+          {otherCats.map((cat) => {
+            const count = calculators.filter(c => c.categorySlug === cat.slug).length;
+            return (
+              <a href={`/${cat.slug}`} class="other-card">
+                <span class="other-icon" aria-hidden="true">{cat.icon}</span>
+                <div>
+                  <p class="other-name">{cat.name}</p>
+                  <p class="other-desc">{cat.description}</p>
+                  <p class="other-count">{count} calculators →</p>
+                </div>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 64px 0; }
+.section-soft { background: var(--color-canvas-soft); }
+.section-eyebrow { font-family: var(--font-mono); font-size: 11px; color: var(--color-mute); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+.section-title { font-size: 28px; font-weight: 600; letter-spacing: -1.1px; color: var(--color-ink); margin-bottom: 32px; }
+
+/* Hero */
+.cat-hero { background: var(--color-canvas); border-bottom: 1px solid var(--color-hairline); padding: 40px 0 48px; }
+.breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-mute); margin-bottom: 24px; }
+.breadcrumb-link { color: var(--color-body); text-decoration: none; }
+.breadcrumb-link:hover { color: var(--color-ink); }
+.breadcrumb-sep { color: var(--color-hairline-strong); }
+.breadcrumb-current { color: var(--color-ink); font-weight: 500; }
+.cat-hero-inner { display: flex; align-items: flex-start; gap: 20px; }
+.cat-icon { font-size: 36px; width: 64px; height: 64px; background: var(--color-canvas-soft-2); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cat-title { font-size: 40px; font-weight: 600; letter-spacing: -1.8px; color: var(--color-ink); margin-bottom: 8px; }
+.cat-desc { font-size: 16px; color: var(--color-body); line-height: 24px; max-width: 520px; margin-bottom: 10px; }
+.cat-count { font-family: var(--font-mono); font-size: 12px; color: var(--color-mute); }
+
+/* Calculator grid */
+.calc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.calc-card { background: var(--color-canvas); border-radius: 10px; padding: 20px; text-decoration: none; box-shadow: 0 0 0 1px rgba(0,0,0,0.07); display: flex; flex-direction: column; gap: 6px; transition: all 0.15s; }
+.calc-card:hover { box-shadow: 0 0 0 1px rgba(0,0,0,0.12), 0 4px 16px rgba(0,0,0,0.07); transform: translateY(-2px); }
+.calc-card-top { margin-bottom: 4px; }
+.calc-card-icon { font-size: 24px; }
+.calc-card-name { font-size: 15px; font-weight: 600; color: var(--color-ink); letter-spacing: -0.4px; }
+.calc-card-desc { font-size: 13px; color: var(--color-mute); line-height: 20px; flex: 1; }
+.calc-card-cta { font-size: 12px; font-weight: 500; color: var(--color-link); margin-top: 4px; }
+
+/* Authority content */
+.content-cols { display: grid; grid-template-columns: 1fr 280px; gap: 48px; align-items: start; }
+.content-h2 { font-size: 22px; font-weight: 600; letter-spacing: -0.8px; color: var(--color-ink); margin-bottom: 14px; }
+.content-p { font-size: 15px; color: var(--color-body); line-height: 26px; margin-bottom: 14px; max-width: 680px; }
+
+.calc-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 4px; }
+.calc-list-link { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border-radius: 6px; text-decoration: none; font-size: 14px; color: var(--color-body); transition: background 0.15s; line-height: 20px; }
+.calc-list-link:hover { background: var(--color-canvas); color: var(--color-ink); }
+.calc-list-link strong { color: var(--color-ink); }
+
+/* Sidebar */
+.sidebar-card { background: var(--color-canvas); border-radius: 10px; padding: 16px; box-shadow: 0 0 0 1px rgba(0,0,0,0.07); margin-bottom: 16px; }
+.sidebar-label { font-family: var(--font-mono); font-size: 11px; color: var(--color-mute); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+.sidebar-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 2px; }
+.sidebar-links a { display: block; padding: 5px 8px; border-radius: 4px; font-size: 13px; color: var(--color-body); text-decoration: none; transition: all 0.12s; }
+.sidebar-links a:hover { background: var(--color-canvas-soft-2); color: var(--color-ink); }
+
+/* FAQ */
+.faq-container { max-width: 760px; }
+.faq-list { border-radius: 10px; overflow: hidden; box-shadow: 0 0 0 1px rgba(0,0,0,0.07); }
+.faq-item { background: var(--color-canvas); border-bottom: 1px solid var(--color-hairline); }
+.faq-item:last-child { border-bottom: none; }
+.faq-q { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; font-size: 15px; font-weight: 500; color: var(--color-ink); cursor: pointer; list-style: none; letter-spacing: -0.3px; transition: background 0.15s; }
+.faq-q:hover { background: var(--color-canvas-soft); }
+.faq-q::-webkit-details-marker { display: none; }
+.faq-q::after { content: '+'; font-size: 18px; color: var(--color-mute); font-weight: 300; flex-shrink: 0; transition: transform 0.2s; }
+details[open] .faq-q::after { transform: rotate(45deg); }
+.faq-a { padding: 0 20px 16px; font-size: 14px; color: var(--color-body); line-height: 22px; margin: 0; }
+
+/* Other categories */
+.other-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.other-card { display: flex; gap: 14px; background: var(--color-canvas); border-radius: 10px; padding: 18px; text-decoration: none; box-shadow: 0 0 0 1px rgba(0,0,0,0.07); transition: all 0.15s; align-items: flex-start; }
+.other-card:hover { box-shadow: 0 0 0 1px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.07); transform: translateY(-1px); }
+.other-icon { font-size: 24px; width: 44px; height: 44px; background: var(--color-canvas-soft-2); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.other-name { font-size: 14px; font-weight: 600; color: var(--color-ink); margin-bottom: 4px; }
+.other-desc { font-size: 12px; color: var(--color-mute); line-height: 18px; margin-bottom: 6px; }
+.other-count { font-size: 12px; font-weight: 500; color: var(--color-link); }
+
+@media (max-width: 960px) {
+  .content-cols { grid-template-columns: 1fr; }
+  .content-sidebar { display: none; }
+  .other-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .cat-title { font-size: 30px; }
+  .cat-hero-inner { flex-direction: column; }
+}
+@media (max-width: 600px) {
+  .container { padding: 0 16px; }
+  .cat-title { font-size: 26px; }
+  .other-grid { grid-template-columns: 1fr; }
+}
+</style>

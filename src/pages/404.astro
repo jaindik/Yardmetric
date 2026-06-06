@@ -1,0 +1,95 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+import { categories, getPopularCalculators } from '../data/calculators';
+
+const popular = getPopularCalculators(6);
+---
+
+<Layout
+  title="Page Not Found — Material Calculator Hub"
+  description="The page you're looking for doesn't exist. Browse our free material calculators for construction, landscaping, and DIY projects."
+  noindex={true}
+>
+  <NavBar />
+
+  <main class="error-main">
+    <div class="container">
+      <div class="error-content">
+        <p class="error-code">404</p>
+        <h1 class="error-title">Page not found.</h1>
+        <p class="error-desc">
+          The page you're looking for doesn't exist or has been moved.
+          Try one of our popular calculators below, or head back to the homepage.
+        </p>
+        <div class="error-actions">
+          <a href="/" class="btn-primary">Go to Homepage</a>
+          <a href="/#directory" class="btn-secondary">Browse Calculators</a>
+        </div>
+      </div>
+
+      <div class="error-suggestions">
+        <p class="suggestions-label">Popular Calculators</p>
+        <div class="suggestions-grid">
+          {popular.map((calc) => (
+            <a href={`/calculators/${calc.slug}`} class="suggestion-card">
+              <span class="suggestion-icon" aria-hidden="true">{calc.icon}</span>
+              <div>
+                <p class="suggestion-name">{calc.name}</p>
+                <p class="suggestion-cat">{calc.category}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <p class="suggestions-label" style="margin-top: 32px">Browse by Category</p>
+        <div class="cats-row">
+          {categories.map((cat) => (
+            <a href={`/${cat.slug}`} class="cat-pill">
+              <span aria-hidden="true">{cat.icon}</span> {cat.name}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+.container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+.error-main { padding: 80px 0 60px; }
+
+.error-content { text-align: center; padding: 0 0 64px; border-bottom: 1px solid var(--color-hairline); margin-bottom: 56px; }
+.error-code { font-family: var(--font-mono); font-size: 14px; color: var(--color-mute); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 16px; }
+.error-title { font-size: 48px; font-weight: 600; letter-spacing: -2.4px; color: var(--color-ink); margin-bottom: 16px; }
+.error-desc { font-size: 16px; color: var(--color-body); line-height: 26px; max-width: 440px; margin: 0 auto 32px; }
+
+.error-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.btn-primary { display: inline-flex; align-items: center; height: 44px; padding: 0 20px; background: var(--color-ink); color: #fff; font-size: 15px; font-weight: 500; border-radius: 100px; text-decoration: none; transition: opacity 0.15s; }
+.btn-primary:hover { opacity: 0.85; }
+.btn-secondary { display: inline-flex; align-items: center; height: 44px; padding: 0 20px; background: var(--color-canvas); color: var(--color-ink); font-size: 15px; font-weight: 500; border-radius: 100px; text-decoration: none; border: 1px solid var(--color-hairline); transition: border-color 0.15s; }
+.btn-secondary:hover { border-color: var(--color-hairline-strong); }
+
+.suggestions-label { font-family: var(--font-mono); font-size: 11px; color: var(--color-mute); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 12px; }
+.suggestions-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.suggestion-card { display: flex; align-items: center; gap: 10px; background: var(--color-canvas); border-radius: 8px; padding: 12px 14px; text-decoration: none; box-shadow: 0 0 0 1px rgba(0,0,0,0.06); transition: all 0.15s; }
+.suggestion-card:hover { box-shadow: 0 0 0 1px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05); }
+.suggestion-icon { font-size: 16px; width: 32px; height: 32px; background: var(--color-canvas-soft-2); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.suggestion-name { font-size: 13px; font-weight: 600; color: var(--color-ink); margin-bottom: 1px; }
+.suggestion-cat { font-size: 11px; color: var(--color-mute); }
+
+.cats-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.cat-pill { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 100px; border: 1px solid var(--color-hairline); background: var(--color-canvas); font-size: 13px; color: var(--color-body); text-decoration: none; font-weight: 500; transition: all 0.15s; }
+.cat-pill:hover { border-color: var(--color-hairline-strong); color: var(--color-ink); background: var(--color-canvas-soft); }
+
+@media (max-width: 640px) {
+  .error-title { font-size: 36px; }
+  .suggestions-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 400px) {
+  .suggestions-grid { grid-template-columns: 1fr; }
+}
+</style>

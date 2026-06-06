@@ -1,0 +1,191 @@
+---
+const navLinks = [
+  { href: '/landscaping', label: 'Landscaping' },
+  { href: '/construction', label: 'Construction' },
+  { href: '/pavers-outdoor', label: 'Pavers & Outdoor' },
+  { href: '/lumber-woodworking', label: 'Lumber' },
+];
+const currentPath = Astro.url.pathname;
+---
+
+<header class="nav-bar" id="navbar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo" aria-label="Material Calculator Hub home">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="8" height="8" rx="1.5" fill="#171717"/>
+        <rect x="12" width="8" height="8" rx="1.5" fill="#171717" opacity=".4"/>
+        <rect y="12" width="8" height="8" rx="1.5" fill="#171717" opacity=".4"/>
+        <rect x="12" y="12" width="8" height="8" rx="1.5" fill="#171717" opacity=".7"/>
+      </svg>
+      <span class="nav-logo-text">Material Calculator Hub</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      {navLinks.map((link) => (
+        <a
+          href={link.href}
+          class:list={['nav-link', { 'nav-link-active': currentPath.startsWith(link.href) }]}
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <button class="nav-mobile-toggle" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect y="3" width="16" height="1.5" rx=".75" fill="currentColor"/>
+        <rect y="7.25" width="16" height="1.5" rx=".75" fill="currentColor"/>
+        <rect y="11.5" width="16" height="1.5" rx=".75" fill="currentColor"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Mobile navigation" hidden>
+    <nav class="mobile-nav">
+      <a href="/" class="mobile-nav-link">Home</a>
+      {navLinks.map((link) => (
+        <a href={link.href} class="mobile-nav-link">{link.label}</a>
+      ))}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .nav-bar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--color-canvas);
+    border-bottom: 1px solid var(--color-hairline);
+    height: 64px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: 64px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+    width: 100%;
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: var(--color-ink);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.28px;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+  }
+
+  .nav-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--color-body);
+    text-decoration: none;
+    letter-spacing: -0.28px;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .nav-link:hover {
+    background: var(--color-canvas-soft-2);
+    color: var(--color-ink);
+  }
+
+  .nav-link-active {
+    color: var(--color-ink);
+    font-weight: 500;
+  }
+
+  .nav-mobile-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-ink);
+    margin-left: auto;
+  }
+
+  .mobile-menu {
+    background: var(--color-canvas);
+    border-top: 1px solid var(--color-hairline);
+    padding: 8px 16px 16px;
+  }
+
+  .mobile-menu[hidden] {
+    display: none;
+  }
+
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .mobile-nav-link {
+    display: block;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 15px;
+    color: var(--color-ink);
+    text-decoration: none;
+    font-weight: 400;
+  }
+
+  .mobile-nav-link:hover {
+    background: var(--color-canvas-soft-2);
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+    }
+    .nav-mobile-toggle {
+      display: flex;
+    }
+    .nav-bar {
+      height: auto;
+      min-height: 56px;
+    }
+    .nav-inner {
+      height: 56px;
+      padding: 0 16px;
+    }
+  }
+</style>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      const isOpen = !menu.hidden;
+      menu.hidden = isOpen;
+      btn.setAttribute('aria-expanded', String(!isOpen));
+    });
+  }
+</script>
