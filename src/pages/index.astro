@@ -81,7 +81,7 @@ const structuredData = JSON.stringify({
           {categories.map((cat) => {
             const count = calculators.filter(c => c.categorySlug === cat.slug).length;
             return (
-              <a href={`/${cat.slug}`} class="category-card">
+              <a href={`/${cat.slug}/`} class="category-card">
                 <span class="category-icon" aria-hidden="true">{cat.icon}</span>
                 <div class="category-text">
                   <p class="category-name">{cat.name}</p>
@@ -108,7 +108,7 @@ const structuredData = JSON.stringify({
         </div>
         <div class="featured-grid">
           {featured.map((calc) => calc && (
-            <a href={`/calculators/${calc.slug}`} class="featured-card">
+            <a href={`/calculators/${calc.slug}/`} class="featured-card">
               <div class="featured-card-top">
                 <span class="featured-icon" aria-hidden="true">{calc.icon}</span>
                 <span class="featured-cat">{calc.category}</span>
@@ -171,7 +171,7 @@ const structuredData = JSON.stringify({
               {calculators
                 .filter((c) => c.categorySlug === cat.slug)
                 .map((calc) => (
-                  <a href={`/calculators/${calc.slug}`} class="dir-card" data-name={calc.name.toLowerCase()}>
+                  <a href={`/calculators/${calc.slug}/`} class="dir-card" data-name={calc.name.toLowerCase()}>
                     <span class="dir-icon" aria-hidden="true">{calc.icon}</span>
                     <div class="dir-text">
                       <p class="dir-name">{calc.name}</p>

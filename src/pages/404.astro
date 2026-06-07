@@ -33,7 +33,7 @@ const popular = getPopularCalculators(6);
         <p class="suggestions-label">Popular Calculators</p>
         <div class="suggestions-grid">
           {popular.map((calc) => (
-            <a href={`/calculators/${calc.slug}`} class="suggestion-card">
+            <a href={`/calculators/${calc.slug}/`} class="suggestion-card">
               <span class="suggestion-icon" aria-hidden="true">{calc.icon}</span>
               <div>
                 <p class="suggestion-name">{calc.name}</p>
@@ -46,7 +46,7 @@ const popular = getPopularCalculators(6);
         <p class="suggestions-label" style="margin-top: 32px">Browse by Category</p>
         <div class="cats-row">
           {categories.map((cat) => (
-            <a href={`/${cat.slug}`} class="cat-pill">
+            <a href={`/${cat.slug}/`} class="cat-pill">
               <span aria-hidden="true">{cat.icon}</span> {cat.name}
             </a>
           ))}
