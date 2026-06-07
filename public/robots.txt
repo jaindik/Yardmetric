@@ -8,4 +8,4 @@ Allow: /
 Disallow: /_astro/
 
 # Sitemap index
-Sitemap: https://yardmetric.com/sitemap-index.xml
+Sitemap: https://yardmetric.com/sitemap.xml

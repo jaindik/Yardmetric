@@ -21,6 +21,11 @@ export default {
     const url = new URL(request.url);
     const path = url.pathname;
 
+    // Alias /sitemap.xml → /sitemap-index.xml (standard URL expectation)
+    if (path === '/sitemap.xml') {
+      return Response.redirect(new URL('/sitemap-index.xml', request.url).toString(), 301);
+    }
+
     // 301 redirect for paths missing a trailing slash (skip files with extensions)
     const lastSegment = path.split('/').pop() ?? '';
     if (!path.endsWith('/') && !lastSegment.includes('.')) {
