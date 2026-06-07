@@ -1,8 +1,8 @@
 {
   "name": "mysitemeasure",
   "compatibility_date": "2026-06-07",
+  "main": "src/worker.ts",
   "assets": {
-    "directory": "./dist",
-    "html_handling": "force-trailing-slash"
+    "directory": "./dist"
   }
 }
