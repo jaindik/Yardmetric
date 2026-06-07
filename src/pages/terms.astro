@@ -1,0 +1,125 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Terms of Use — Yard Metric"
+  description="Terms of use for Yard Metric. Free calculators for estimation purposes. Results are not professional advice."
+  canonical="https://yardmetric.com/terms/"
+>
+  <NavBar />
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/" class="breadcrumb-link">Home</a>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current">Terms of Use</span>
+        </nav>
+        <h1 class="page-title">Terms of Use</h1>
+        <p class="page-lead">Last updated: June 2025</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="prose">
+
+          <h2>Acceptance</h2>
+          <p>
+            By using Yard Metric you agree to these terms. If you do not agree,
+            please do not use the site. We may update these terms at any time; continued use
+            after changes constitutes acceptance.
+          </p>
+
+          <h2>Free to use</h2>
+          <p>
+            All calculators on this site are provided free of charge with no account or
+            subscription required. We reserve the right to change, limit, or discontinue
+            any feature at any time without notice.
+          </p>
+
+          <h2>Estimation only</h2>
+          <p>
+            Results produced by our calculators are estimates for planning and budgeting purposes
+            only. They are not a substitute for professional advice from a licensed engineer,
+            architect, contractor, or other qualified professional. Material quantities in the
+            real world depend on site conditions, material variations, installation technique,
+            and other factors no calculator can fully account for.
+          </p>
+          <p>
+            Always verify quantities with your supplier before placing orders. We recommend
+            adding a 5 to 10 percent overage to any estimate.
+          </p>
+
+          <h2>No warranty</h2>
+          <p>
+            This site and its calculators are provided "as is" without warranty of any kind,
+            express or implied. We do not warrant that results are accurate, complete, or
+            suitable for any particular purpose.
+          </p>
+
+          <h2>Limitation of liability</h2>
+          <p>
+            To the maximum extent permitted by law, Yard Metric and its operators
+            shall not be liable for any direct, indirect, incidental, or consequential damages
+            arising from use of this site or reliance on calculator results. This includes, but
+            is not limited to, costs from incorrect material orders, project delays, or
+            construction errors.
+          </p>
+
+          <h2>Intellectual property</h2>
+          <p>
+            The design, code, and written content of this site are owned by Yard Metric. You may use the calculators freely for personal and commercial projects.
+            You may not reproduce, scrape, or redistribute the site's content or code without
+            written permission.
+          </p>
+
+          <h2>Third-party links</h2>
+          <p>
+            This site may link to external websites. We are not responsible for the content
+            or practices of those sites.
+          </p>
+
+          <h2>Governing law</h2>
+          <p>
+            These terms are governed by applicable law without regard to conflict of law provisions.
+          </p>
+
+          <h2>Contact</h2>
+          <p>
+            Questions about these terms? <a href="/contact/">Reach out to us</a> and we'll respond
+            as quickly as we can.
+          </p>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+.container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 64px 0 80px; }
+.hero { background: var(--color-canvas); border-bottom: 1px solid var(--color-hairline); padding: 40px 0 48px; }
+.breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-mute); margin-bottom: 24px; }
+.breadcrumb-link { color: var(--color-body); text-decoration: none; }
+.breadcrumb-link:hover { color: var(--color-ink); }
+.breadcrumb-sep { color: var(--color-hairline-strong); }
+.breadcrumb-current { color: var(--color-ink); font-weight: 500; }
+.page-title { font-size: 40px; font-weight: 600; letter-spacing: -1.8px; color: var(--color-ink); margin-bottom: 8px; }
+.page-lead { font-size: 13px; color: var(--color-mute); font-family: var(--font-mono); }
+
+.prose h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.6px; color: var(--color-ink); margin-top: 40px; margin-bottom: 10px; }
+.prose h2:first-child { margin-top: 0; }
+.prose p { font-size: 15px; color: var(--color-body); line-height: 26px; margin-bottom: 14px; }
+.prose a { color: var(--color-link); }
+.prose a:hover { text-decoration: underline; }
+
+@media (max-width: 600px) { .container { padding: 0 16px; } .page-title { font-size: 32px; } }
+</style>

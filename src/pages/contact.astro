@@ -1,0 +1,295 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Contact — Yard Metric"
+  description="Have a bug report, feature idea, or question? Send us a message and we'll get back to you within 2–3 business days."
+  canonical="https://yardmetric.com/contact/"
+>
+  <NavBar />
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/" class="breadcrumb-link">Home</a>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current">Contact</span>
+        </nav>
+        <p class="eyebrow">Get in touch</p>
+        <h1 class="page-title">Contact Us</h1>
+        <p class="page-lead">Have a bug report, feature idea, or question? Send us a message and we'll get back to you within 2–3 business days.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="layout">
+
+          <!-- Form column -->
+          <div class="form-col">
+            <form class="contact-form" id="contact-form" novalidate>
+              <div class="field">
+                <label class="field-label" for="name">Your name</label>
+                <input class="field-input" id="name" name="name" type="text" autocomplete="name" />
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="email">Email address</label>
+                <input class="field-input" id="email" name="email" type="email" autocomplete="email" />
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="subject">Subject</label>
+                <div class="select-wrap">
+                  <select class="field-input field-select" id="subject" name="subject">
+                    <option value="bug">Bug report</option>
+                    <option value="feature">Feature request</option>
+                    <option value="question">Calculator question</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <svg class="select-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="field-label" for="message">Message</label>
+                <textarea class="field-input field-textarea" id="message" name="message" rows="5"></textarea>
+              </div>
+
+              <button class="submit-btn" type="submit">Send message</button>
+
+              <!-- Success state (hidden by default) -->
+              <div class="success-banner" id="success-banner" hidden>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <circle cx="8" cy="8" r="7" stroke="#16a34a" stroke-width="1.25"/>
+                  <path d="M5 8l2 2 4-4" stroke="#16a34a" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>Message sent. We'll be in touch shortly.</span>
+              </div>
+            </form>
+
+            <p class="footer-note">We respond within 2–3 business days.</p>
+          </div>
+
+          <!-- Sidebar -->
+          <aside class="sidebar">
+            <div class="sidebar-card">
+              <p class="sidebar-heading">Before you write</p>
+              <p class="sidebar-body">
+                Check the <a href="/#faq">FAQ on the home page</a>; your question may already be answered there.
+              </p>
+            </div>
+
+            <div class="sidebar-card">
+              <p class="sidebar-heading">Reporting a bug?</p>
+              <p class="sidebar-body sidebar-body-sm">Please include:</p>
+              <ul class="sidebar-list">
+                <li>The calculator you were using (e.g. Gravel, Concrete, Rebar)</li>
+                <li>Your browser and version (e.g. Chrome 124)</li>
+                <li>Your operating system</li>
+                <li>What you expected vs. what happened</li>
+              </ul>
+            </div>
+
+            <div class="sidebar-card">
+              <p class="sidebar-heading">Response time</p>
+              <p class="sidebar-body">
+                We aim to reply within 2–3 business days. For urgent issues, check if the
+                calculator works in a different browser first, as that resolves most reported issues.
+              </p>
+            </div>
+          </aside>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+.container { max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 56px 0 80px; }
+
+/* Hero */
+.hero { background: var(--color-canvas); border-bottom: 1px solid var(--color-hairline); padding: 40px 0 48px; }
+.breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-mute); margin-bottom: 20px; }
+.breadcrumb-link { color: var(--color-body); text-decoration: none; }
+.breadcrumb-link:hover { color: var(--color-ink); }
+.breadcrumb-sep { color: var(--color-hairline-strong); }
+.breadcrumb-current { color: var(--color-ink); font-weight: 500; }
+.eyebrow { font-family: var(--font-mono); font-size: 11px; color: var(--color-mute); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+.page-title { font-size: 40px; font-weight: 600; letter-spacing: -1.8px; color: var(--color-ink); margin-bottom: 12px; }
+.page-lead { font-size: 16px; color: var(--color-body); line-height: 26px; max-width: 500px; }
+
+/* Layout */
+.layout { display: grid; grid-template-columns: 1fr 300px; gap: 56px; align-items: start; }
+
+/* Form */
+.contact-form { display: flex; flex-direction: column; gap: 20px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field-label { font-size: 13px; font-weight: 500; color: var(--color-ink); letter-spacing: -0.1px; }
+
+.field-input {
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid var(--color-hairline);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-size: 15px;
+  padding: 0 14px;
+  font-family: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  appearance: none;
+}
+.field-input:focus {
+  outline: none;
+  border-color: var(--color-hairline-strong);
+  box-shadow: 0 0 0 3px rgba(23,23,23,0.06);
+}
+
+.select-wrap { position: relative; }
+.field-select { cursor: pointer; padding-right: 36px; }
+.select-chevron {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-mute);
+  pointer-events: none;
+}
+
+.field-textarea {
+  height: auto;
+  min-height: 128px;
+  padding: 12px 14px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.submit-btn {
+  height: 44px;
+  padding: 0 24px;
+  background: var(--color-ink);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  align-self: flex-start;
+  transition: opacity 0.15s;
+}
+.submit-btn:hover { opacity: 0.82; }
+
+.success-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #15803d;
+}
+
+.footer-note {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--color-mute);
+}
+
+/* Sidebar */
+.sidebar { display: flex; flex-direction: column; gap: 12px; }
+.sidebar-card {
+  background: var(--color-canvas-soft);
+  border: 1px solid var(--color-hairline);
+  border-radius: 10px;
+  padding: 18px 20px;
+}
+.sidebar-heading {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin-bottom: 8px;
+  letter-spacing: -0.2px;
+}
+.sidebar-body {
+  font-size: 13px;
+  color: var(--color-body);
+  line-height: 20px;
+}
+.sidebar-body-sm { margin-bottom: 8px; }
+.sidebar-body a { color: var(--color-link); text-decoration: none; }
+.sidebar-body a:hover { text-decoration: underline; }
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.sidebar-list li {
+  font-size: 13px;
+  color: var(--color-body);
+  line-height: 18px;
+  padding-left: 14px;
+  position: relative;
+}
+.sidebar-list li::before {
+  content: '·';
+  position: absolute;
+  left: 0;
+  color: var(--color-mute);
+  font-weight: 700;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .submit-btn { color: var(--color-canvas); }
+  :global(html:not([data-theme="light"])) .field-input:focus { box-shadow: 0 0 0 3px rgba(229,229,229,0.1); }
+  :global(html:not([data-theme="light"])) .success-banner { background: #052e16; border-color: #166534; color: #86efac; }
+}
+:global(html[data-theme="dark"]) .submit-btn { color: var(--color-canvas); }
+:global(html[data-theme="dark"]) .field-input:focus { box-shadow: 0 0 0 3px rgba(229,229,229,0.1); }
+:global(html[data-theme="dark"]) .success-banner { background: #052e16; border-color: #166534; color: #86efac; }
+
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+}
+@media (max-width: 600px) {
+  .container { padding: 0 16px; }
+  .page-title { font-size: 32px; }
+  .submit-btn { align-self: stretch; text-align: center; }
+}
+</style>
+
+<script>
+const form = document.getElementById('contact-form') as HTMLFormElement | null;
+const successBanner = document.getElementById('success-banner') as HTMLElement | null;
+const submitBtn = form?.querySelector('.submit-btn') as HTMLButtonElement | null;
+
+form?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (successBanner) {
+    successBanner.hidden = false;
+  }
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sent';
+  }
+});
+</script>

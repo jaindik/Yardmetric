@@ -21,18 +21,18 @@ const structuredData = JSON.stringify({
   '@type': 'CollectionPage',
   name: `${category.name} Calculators`,
   description: category.description,
-  url: `https://materialcalculatorhub.com/${category.slug}`,
+  url: `https://yardmetric.com/${category.slug}/`,
   breadcrumb: {
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://materialcalculatorhub.com/' },
-      { '@type': 'ListItem', position: 2, name: category.name, item: `https://materialcalculatorhub.com/${category.slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://yardmetric.com/' },
+      { '@type': 'ListItem', position: 2, name: category.name, item: `https://yardmetric.com/${category.slug}/` },
     ],
   },
   hasPart: catCalcs.map((c) => ({
     '@type': 'WebApplication',
     name: c.name,
-    url: `https://materialcalculatorhub.com/calculators/${c.slug}`,
+    url: `https://yardmetric.com/calculators/${c.slug}/`,
   })),
   mainEntity: {
     '@type': 'FAQPage',
@@ -46,9 +46,9 @@ const structuredData = JSON.stringify({
 ---
 
 <Layout
-  title={`${category.name} Calculators — Free Online Tools | Material Calculator Hub`}
+  title={`${category.name} Calculators — Free Online Tools | Yard Metric`}
   description={`Free ${category.name.toLowerCase()} calculators for ${catCalcs.map(c => c.name).slice(0,5).join(', ')}, and more. Instant, accurate results in cubic yards, tons, and bags.`}
-  canonical={`https://materialcalculatorhub.com/${category.slug}`}
+  canonical={`https://yardmetric.com/${category.slug}/`}
 >
   <Fragment slot="structured-data">
     <script type="application/ld+json" set:html={structuredData} />
@@ -81,7 +81,7 @@ const structuredData = JSON.stringify({
       <div class="container">
         <div class="calc-grid">
           {catCalcs.map((calc) => (
-            <a href={`/calculators/${calc.slug}`} class="calc-card">
+            <a href={`/calculators/${calc.slug}/`} class="calc-card">
               <div class="calc-card-top">
                 <span class="calc-card-icon" aria-hidden="true">{calc.icon}</span>
               </div>
@@ -111,9 +111,9 @@ const structuredData = JSON.stringify({
           <ul class="calc-list">
             {catCalcs.map((calc) => (
               <li>
-                <a href={`/calculators/${calc.slug}`} class="calc-list-link">
+                <a href={`/calculators/${calc.slug}/`} class="calc-list-link">
                   <span aria-hidden="true">{calc.icon}</span>
-                  <span><strong>{calc.name}</strong> — {calc.shortDesc}</span>
+                  <span><strong>{calc.name}</strong>: {calc.shortDesc}</span>
                 </a>
               </li>
             ))}
@@ -127,7 +127,7 @@ const structuredData = JSON.stringify({
             <ul class="sidebar-links">
               {catCalcs.map((calc) => (
                 <li>
-                  <a href={`/calculators/${calc.slug}`}>{calc.name}</a>
+                  <a href={`/calculators/${calc.slug}/`}>{calc.name}</a>
                 </li>
               ))}
             </ul>
@@ -139,7 +139,7 @@ const structuredData = JSON.stringify({
               <ul class="sidebar-links">
                 {popular.map((calc) => (
                   <li>
-                    <a href={`/calculators/${calc.slug}`}>{calc.name}</a>
+                    <a href={`/calculators/${calc.slug}/`}>{calc.name}</a>
                   </li>
                 ))}
               </ul>
@@ -174,7 +174,7 @@ const structuredData = JSON.stringify({
           {otherCats.map((cat) => {
             const count = calculators.filter(c => c.categorySlug === cat.slug).length;
             return (
-              <a href={`/${cat.slug}`} class="other-card">
+              <a href={`/${cat.slug}/`} class="other-card">
                 <span class="other-icon" aria-hidden="true">{cat.icon}</span>
                 <div>
                   <p class="other-name">{cat.name}</p>
@@ -274,4 +274,20 @@ details[open] .faq-q::after { transform: rotate(45deg); }
   .cat-title { font-size: 26px; }
   .other-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Dark mode overrides ──────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .calc-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+  :global(html:not([data-theme="light"])) .calc-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.13), 0 4px 16px rgba(0,0,0,0.5); }
+  :global(html:not([data-theme="light"])) .sidebar-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+  :global(html:not([data-theme="light"])) .faq-list { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+  :global(html:not([data-theme="light"])) .other-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+  :global(html:not([data-theme="light"])) .other-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.13), 0 4px 12px rgba(0,0,0,0.5); }
+}
+:global(html[data-theme="dark"]) .calc-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+:global(html[data-theme="dark"]) .calc-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.13), 0 4px 16px rgba(0,0,0,0.5); }
+:global(html[data-theme="dark"]) .sidebar-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+:global(html[data-theme="dark"]) .faq-list { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+:global(html[data-theme="dark"]) .other-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+:global(html[data-theme="dark"]) .other-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.13), 0 4px 12px rgba(0,0,0,0.5); }
 </style>

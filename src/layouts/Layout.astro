@@ -13,12 +13,12 @@ const {
   title,
   description = 'Fast, accurate calculators for gravel, sand, mulch, topsoil, concrete, asphalt, lumber and more. Free material calculators for construction, landscaping, and DIY projects.',
   canonical,
-  ogImage = '/og-default.png',
+  ogImage = '/ogImage.png',
   noindex = false,
 } = Astro.props;
 
 const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).toString();
-const fullTitle = title.includes('Material Calculator') ? title : `${title} | Material Calculator Hub`;
+const fullTitle = title.includes('Yard Metric') ? title : `${title} | Yard Metric`;
 ---
 
 <!doctype html>
@@ -26,6 +26,16 @@ const fullTitle = title.includes('Material Calculator') ? title : `${title} | Ma
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Anti-FOUC: apply theme before first paint -->
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var system = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-theme', stored || system);
+        } catch (_) {}
+      })();
+    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
 
@@ -40,7 +50,7 @@ const fullTitle = title.includes('Material Calculator') ? title : `${title} | Ma
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={new URL(ogImage, Astro.site).toString()} />
-    <meta property="og:site_name" content="Material Calculator Hub" />
+    <meta property="og:site_name" content="Yard Metric" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -52,6 +62,15 @@ const fullTitle = title.includes('Material Calculator') ? title : `${title} | Ma
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3E0MCKRZT" is:inline></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-D3E0MCKRZT');
+    </script>
 
     <!-- JSON-LD Structured Data -->
     <slot name="structured-data" />

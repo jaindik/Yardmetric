@@ -26,8 +26,8 @@ const categoryCalcs = calculators
 
 const breadcrumb = [
   { name: 'Home', href: '/' },
-  { name: calculator.category, href: `/${calculator.categorySlug}` },
-  { name: calculator.name, href: `/calculators/${calculator.slug}` },
+  { name: calculator.category, href: `/${calculator.categorySlug}/` },
+  { name: calculator.name, href: `/calculators/${calculator.slug}/` },
 ];
 
 const structuredData = JSON.stringify({
@@ -35,7 +35,7 @@ const structuredData = JSON.stringify({
   '@type': 'WebApplication',
   name: calculator.name,
   description: calculator.description,
-  url: `https://materialcalculatorhub.com/calculators/${calculator.slug}`,
+  url: `https://yardmetric.com/calculators/${calculator.slug}/`,
   applicationCategory: 'UtilitiesApplication',
   operatingSystem: 'Web',
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -45,27 +45,30 @@ const structuredData = JSON.stringify({
       '@type': 'ListItem',
       position: i + 1,
       name: b.name,
-      item: `https://materialcalculatorhub.com${b.href}`,
+      item: `https://yardmetric.com${b.href}`,
     })),
   },
-  mainEntity: {
-    '@type': 'FAQPage',
-    mainEntity: calculator.faqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.q,
-      acceptedAnswer: { '@type': 'Answer', text: faq.a },
-    })),
-  },
+});
+
+const faqStructuredData = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: calculator.faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.q,
+    acceptedAnswer: { '@type': 'Answer', text: faq.a },
+  })),
 });
 ---
 
 <Layout
-  title={`${calculator.name} — Free Online Calculator`}
-  description={calculator.description}
-  canonical={`https://materialcalculatorhub.com/calculators/${calculator.slug}`}
+  title={calculator.seoTitle}
+  description={calculator.seoDescription}
+  canonical={`https://yardmetric.com/calculators/${calculator.slug}/`}
 >
   <Fragment slot="structured-data">
     <script type="application/ld+json" set:html={structuredData} />
+    <script type="application/ld+json" set:html={faqStructuredData} />
   </Fragment>
 
   <NavBar />
@@ -117,7 +120,7 @@ const structuredData = JSON.stringify({
         <h2>How to Use the {calculator.name}</h2>
         <p>
           The {calculator.name} helps you quickly determine the exact amount of material needed for your project.
-          Enter your project dimensions — length, width, and depth — and the calculator instantly shows results in
+          Enter your project dimensions (length, width, and depth) and the calculator instantly shows results in
           multiple units including cubic yards, cubic feet, tons, and number of bags.
         </p>
         <p>
@@ -173,7 +176,7 @@ const structuredData = JSON.stringify({
           <h2>Related Calculators</h2>
           <div class="related-grid">
             {related.map((rel) => (
-              <a href={`/calculators/${rel.slug}`} class="related-card">
+              <a href={`/calculators/${rel.slug}/`} class="related-card">
                 <span class="related-icon" aria-hidden="true">{rel.icon}</span>
                 <div>
                   <p class="related-name">{rel.name}</p>
@@ -194,7 +197,7 @@ const structuredData = JSON.stringify({
           <h2>More {calculator.category} Calculators</h2>
           <div class="related-grid">
             {categoryCalcs.map((c) => (
-              <a href={`/calculators/${c.slug}`} class="related-card">
+              <a href={`/calculators/${c.slug}/`} class="related-card">
                 <span class="related-icon" aria-hidden="true">{c.icon}</span>
                 <div>
                   <p class="related-name">{c.name}</p>
@@ -207,7 +210,7 @@ const structuredData = JSON.stringify({
             ))}
           </div>
           <p class="section-all-link">
-            <a href={`/${calculator.categorySlug}`}>View all {calculator.category} calculators →</a>
+            <a href={`/${calculator.categorySlug}/`}>View all {calculator.category} calculators →</a>
           </p>
         </section>
       )}
@@ -218,7 +221,7 @@ const structuredData = JSON.stringify({
           <h2>Popular Calculators</h2>
           <div class="popular-grid">
             {popular.map((c) => (
-              <a href={`/calculators/${c.slug}`} class="popular-card">
+              <a href={`/calculators/${c.slug}/`} class="popular-card">
                 <span class="popular-icon" aria-hidden="true">{c.icon}</span>
                 <div>
                   <p class="popular-name">{c.name}</p>
@@ -540,4 +543,31 @@ details[open] .faq-q::after {
   .calc-title { font-size: 28px; letter-spacing: -0.8px; }
   .examples-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Dark mode overrides ──────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  /* Formula block: var(--color-ink) becomes light in dark mode, override to a dark surface */
+  :global(html:not([data-theme="light"])) .formula-block {
+    background: var(--color-canvas-soft-2);
+    border: 1px solid var(--color-hairline);
+  }
+  :global(html:not([data-theme="light"])) .formula-code { color: #d4d4d4; }
+  :global(html:not([data-theme="light"])) .example-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+  :global(html:not([data-theme="light"])) .faq-list { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+  :global(html:not([data-theme="light"])) .related-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+  :global(html:not([data-theme="light"])) .related-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.13), 0 4px 12px rgba(0,0,0,0.5); }
+  :global(html:not([data-theme="light"])) .popular-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.06); }
+  :global(html:not([data-theme="light"])) .popular-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.10), 0 2px 8px rgba(0,0,0,0.4); }
+}
+:global(html[data-theme="dark"]) .formula-block {
+  background: var(--color-canvas-soft-2);
+  border: 1px solid var(--color-hairline);
+}
+:global(html[data-theme="dark"]) .formula-code { color: #d4d4d4; }
+:global(html[data-theme="dark"]) .example-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+:global(html[data-theme="dark"]) .faq-list { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+:global(html[data-theme="dark"]) .related-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+:global(html[data-theme="dark"]) .related-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.13), 0 4px 12px rgba(0,0,0,0.5); }
+:global(html[data-theme="dark"]) .popular-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.06); }
+:global(html[data-theme="dark"]) .popular-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.10), 0 2px 8px rgba(0,0,0,0.4); }
 </style>

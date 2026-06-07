@@ -8,7 +8,7 @@ const popular = getPopularCalculators(6);
 ---
 
 <Layout
-  title="Page Not Found — Material Calculator Hub"
+  title="Page Not Found — Yard Metric"
   description="The page you're looking for doesn't exist. Browse our free material calculators for construction, landscaping, and DIY projects."
   noindex={true}
 >
@@ -92,4 +92,14 @@ const popular = getPopularCalculators(6);
 @media (max-width: 400px) {
   .suggestions-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Dark mode overrides ──────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .btn-primary { color: var(--color-canvas); }
+  :global(html:not([data-theme="light"])) .suggestion-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.06); }
+  :global(html:not([data-theme="light"])) .suggestion-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.12), 0 2px 8px rgba(0,0,0,0.4); }
+}
+:global(html[data-theme="dark"]) .btn-primary { color: var(--color-canvas); }
+:global(html[data-theme="dark"]) .suggestion-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.06); }
+:global(html[data-theme="dark"]) .suggestion-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.12), 0 2px 8px rgba(0,0,0,0.4); }
 </style>

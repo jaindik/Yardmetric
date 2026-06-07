@@ -44,6 +44,7 @@
     background: var(--color-canvas-soft);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    color-scheme: light;
   }
 
   ::selection {
@@ -54,6 +55,65 @@
   * {
     box-sizing: border-box;
   }
+}
+
+/* ── Dark mode token overrides ─────────────────────────────────────────────── */
+/* System dark preference (no-JS fallback and initial state) */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-ink: #e5e5e5;
+    --color-body: #a3a3a3;
+    --color-mute: #6b6b6b;
+    --color-hairline: #262626;
+    --color-hairline-strong: #3d3d3d;
+    --color-canvas: #0a0a0a;
+    --color-canvas-soft: #111111;
+    --color-canvas-soft-2: #1c1c1c;
+    --color-link: #3b9eff;
+    --color-link-deep: #60a5fa;
+    --color-link-bg-soft: #0c1f3d;
+    --color-error: #f87171;
+    --color-error-soft: #450a0a;
+    --color-warning-soft: #2c1a00;
+    --shadow-card: 0 0 0 1px rgba(255,255,255,0.07);
+    --shadow-card-md: 0 0 0 1px rgba(255,255,255,0.07), 0px 2px 4px rgba(0,0,0,0.5);
+    --shadow-card-lg: 0 0 0 1px rgba(255,255,255,0.07), 0px 4px 16px rgba(0,0,0,0.5);
+  }
+  html:not([data-theme="light"]) ::selection {
+    color: var(--color-canvas);
+  }
+}
+
+/* Explicit dark mode (set by JS toggle, persisted in localStorage) */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --color-ink: #e5e5e5;
+  --color-body: #a3a3a3;
+  --color-mute: #6b6b6b;
+  --color-hairline: #262626;
+  --color-hairline-strong: #3d3d3d;
+  --color-canvas: #0a0a0a;
+  --color-canvas-soft: #111111;
+  --color-canvas-soft-2: #1c1c1c;
+  --color-link: #3b9eff;
+  --color-link-deep: #60a5fa;
+  --color-link-bg-soft: #0c1f3d;
+  --color-error: #f87171;
+  --color-error-soft: #450a0a;
+  --color-warning-soft: #2c1a00;
+  --shadow-card: 0 0 0 1px rgba(255,255,255,0.07);
+  --shadow-card-md: 0 0 0 1px rgba(255,255,255,0.07), 0px 2px 4px rgba(0,0,0,0.5);
+  --shadow-card-lg: 0 0 0 1px rgba(255,255,255,0.07), 0px 4px 16px rgba(0,0,0,0.5);
+}
+
+html[data-theme="dark"] ::selection {
+  color: var(--color-canvas);
+}
+
+/* Explicit light mode (overrides system dark preference) */
+html[data-theme="light"] {
+  color-scheme: light;
 }
 
 @layer utilities {

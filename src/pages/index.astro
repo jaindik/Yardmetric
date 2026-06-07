@@ -7,7 +7,7 @@ import { calculators, categories, getPopularCalculators } from '../data/calculat
 const featured = getPopularCalculators(8);
 
 const whyCards = [
-  { icon: '⚡', title: 'Instant Results', desc: 'Calculations update in real-time as you type — no submit button needed.' },
+  { icon: '⚡', title: 'Instant Results', desc: 'Calculations update in real-time as you type. No submit button needed.' },
   { icon: '📱', title: 'Mobile Friendly', desc: 'Large touch targets and an optimized layout for phones and tablets.' },
   { icon: '📐', title: 'Multiple Units', desc: 'Switch between imperial and metric without losing your values.' },
   { icon: '🎯', title: 'Accurate Formulas', desc: 'Industry-standard formulas used by professionals and contractors.' },
@@ -17,16 +17,16 @@ const whyCards = [
 const structuredData = JSON.stringify({
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Material Calculator Hub',
-  url: 'https://materialcalculatorhub.com',
+  name: 'Yard Metric',
+  url: 'https://yardmetric.com',
   description: 'Free material calculators for construction, landscaping, and DIY projects.',
 });
 ---
 
 <Layout
-  title="Material Calculator Hub — Free Calculators for Construction & Landscaping"
+  title="Yard Metric — Free Calculators for Construction & Landscaping"
   description="Free, accurate calculators for gravel, sand, mulch, topsoil, concrete, asphalt, lumber and more. Calculate material quantities instantly for any project."
-  canonical="https://materialcalculatorhub.com/"
+  canonical="https://yardmetric.com/"
 >
   <Fragment slot="structured-data">
     <script type="application/ld+json" set:html={structuredData} />
@@ -52,11 +52,11 @@ const structuredData = JSON.stringify({
         </p>
         <div class="hero-cta-row">
           <a href="#calculators" class="btn-primary">Browse Calculators</a>
-          <a href="/landscaping" class="btn-secondary">Landscaping →</a>
+          <a href="/landscaping/" class="btn-secondary">Landscaping →</a>
         </div>
         <div class="hero-stats">
           <div class="stat">
-            <span class="stat-num">41</span>
+            <span class="stat-num">37</span>
             <span class="stat-label">Calculators</span>
           </div>
           <div class="stat-div"></div>
@@ -125,7 +125,7 @@ const structuredData = JSON.stringify({
     <!-- WHY OURS -->
     <section class="section">
       <div class="container">
-        <p class="section-eyebrow">Why Material Calculator Hub</p>
+        <p class="section-eyebrow">Why Yard Metric</p>
         <h2 class="section-title">Built Different</h2>
         <div class="why-grid">
           {whyCards.map((card) => (
@@ -196,11 +196,11 @@ const structuredData = JSON.stringify({
         <h2 class="section-title">Common Questions</h2>
         <div class="faq-list">
           {[
-            { q: 'Are these calculators free?', a: 'Yes — all calculators are completely free, with no signup, account, or subscription required.' },
-            { q: 'How accurate are the results?', a: 'Our calculators use industry-standard formulas and typical material densities. Results are estimates — always add a 5–10% overage when ordering materials.' },
-            { q: 'Can I use metric units?', a: 'Yes — every calculator supports both imperial (feet and inches) and metric (meters and centimeters). Switch units without losing your entered values.' },
+            { q: 'Are these calculators free?', a: 'Yes, all calculators are completely free, with no signup, account, or subscription required.' },
+            { q: 'How accurate are the results?', a: 'Our calculators use industry-standard formulas and typical material densities. Results are estimates; always add a 5–10% overage when ordering materials.' },
+            { q: 'Can I use metric units?', a: 'Yes, every calculator supports both imperial (feet and inches) and metric (meters and centimeters). Switch units without losing your entered values.' },
             { q: 'Can I save my calculations?', a: 'Your most recent inputs are automatically saved in your browser. Each calculator also keeps a history of your last 5 calculations locally.' },
-            { q: 'Can I share a calculation with someone?', a: 'Yes — use the Share button on any calculator to generate a URL with your values pre-filled.' },
+            { q: 'Can I share a calculation with someone?', a: 'Yes, use the Share button on any calculator to generate a URL with your values pre-filled.' },
           ].map((item) => (
             <details class="faq-item">
               <summary class="faq-q">{item.q}</summary>
@@ -546,6 +546,42 @@ details[open] .faq-q::after { transform: rotate(45deg); }
   .search-wrap { max-width: 100%; }
   .section-header { flex-direction: column; align-items: flex-start; }
 }
+
+/* ── Dark mode overrides ──────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .hero-mesh {
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 20%, rgba(0,124,240,0.13) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 85% 60%, rgba(121,40,202,0.09) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,223,216,0.08) 0%, transparent 60%);
+  }
+  :global(html:not([data-theme="light"])) .btn-primary { color: var(--color-canvas); }
+  :global(html:not([data-theme="light"])) .category-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+  :global(html:not([data-theme="light"])) .category-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.13), 0 4px 12px rgba(0,0,0,0.5); }
+  :global(html:not([data-theme="light"])) .featured-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+  :global(html:not([data-theme="light"])) .featured-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.13), 0 4px 16px rgba(0,0,0,0.5); }
+  :global(html:not([data-theme="light"])) .why-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+  :global(html:not([data-theme="light"])) .dir-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.06); }
+  :global(html:not([data-theme="light"])) .dir-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.12), 0 2px 8px rgba(0,0,0,0.4); }
+  :global(html:not([data-theme="light"])) .faq-list { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+  :global(html:not([data-theme="light"])) .search-input:focus { box-shadow: 0 0 0 3px rgba(229,229,229,0.1); }
+}
+:global(html[data-theme="dark"]) .hero-mesh {
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 20%, rgba(0,124,240,0.13) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 85% 60%, rgba(121,40,202,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,223,216,0.08) 0%, transparent 60%);
+}
+:global(html[data-theme="dark"]) .btn-primary { color: var(--color-canvas); }
+:global(html[data-theme="dark"]) .category-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+:global(html[data-theme="dark"]) .category-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.13), 0 4px 12px rgba(0,0,0,0.5); }
+:global(html[data-theme="dark"]) .featured-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+:global(html[data-theme="dark"]) .featured-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.13), 0 4px 16px rgba(0,0,0,0.5); }
+:global(html[data-theme="dark"]) .why-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+:global(html[data-theme="dark"]) .dir-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.06); }
+:global(html[data-theme="dark"]) .dir-card:hover { box-shadow: 0 0 0 1px rgba(255,255,255,0.12), 0 2px 8px rgba(0,0,0,0.4); }
+:global(html[data-theme="dark"]) .faq-list { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+:global(html[data-theme="dark"]) .search-input:focus { box-shadow: 0 0 0 3px rgba(229,229,229,0.1); }
 </style>
 
 <script>

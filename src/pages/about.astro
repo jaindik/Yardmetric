@@ -6,9 +6,9 @@ import { calculators, categories } from '../data/calculators';
 ---
 
 <Layout
-  title="About Us — Material Calculator Hub"
-  description="Material Calculator Hub provides free, accurate material calculators for construction, landscaping, and DIY projects. Learn about our mission and how our calculators work."
-  canonical="https://materialcalculatorhub.com/about"
+  title="About Us — Yard Metric"
+  description="Yard Metric provides free, accurate material calculators for construction, landscaping, and DIY projects. Learn about our mission and how our calculators work."
+  canonical="https://yardmetric.com/about/"
 >
   <NavBar />
 
@@ -20,7 +20,7 @@ import { calculators, categories } from '../data/calculators';
           <span class="breadcrumb-sep">/</span>
           <span class="breadcrumb-current">About</span>
         </nav>
-        <h1 class="page-title">About Material Calculator Hub</h1>
+        <h1 class="page-title">About Yard Metric</h1>
         <p class="page-lead">
           We build free, fast material calculators for homeowners, contractors, landscapers,
           and builders who need accurate quantity estimates without the friction.
@@ -40,7 +40,7 @@ import { calculators, categories } from '../data/calculators';
             industry standards.
           </p>
           <p>
-            Material Calculator Hub exists to be the best free material calculation tool on the internet — built with
+            Yard Metric exists to be the best free material calculation tool on the internet, built with
             modern web technology, verified formulas, and a design that works as well on a phone at a job site as it
             does on a desktop at home.
           </p>
@@ -53,7 +53,7 @@ import { calculators, categories } from '../data/calculators';
             references. Coverage calculators (paint, tile, drywall) use standard trade coverage rates.
           </p>
           <p>
-            All calculations happen instantly in your browser — there are no server requests, no delays, and no data
+            All calculations happen instantly in your browser; there are no server requests, no delays, and no data
             is sent anywhere. Your inputs are saved locally in your browser's localStorage for convenience and are
             never transmitted to our servers.
           </p>
@@ -63,7 +63,7 @@ import { calculators, categories } from '../data/calculators';
             {categories.map((cat) => {
               const count = calculators.filter(c => c.categorySlug === cat.slug).length;
               return (
-                <a href={`/${cat.slug}`} class="cat-card">
+                <a href={`/${cat.slug}/`} class="cat-card">
                   <span aria-hidden="true">{cat.icon}</span>
                   <div>
                     <p class="cat-name">{cat.name}</p>
@@ -90,13 +90,13 @@ import { calculators, categories } from '../data/calculators';
           <p>
             We do not collect personal information. We do not require accounts. We do not sell data.
             We do not use invasive advertising. Your calculation history stays in your browser and never leaves
-            your device. See our <a href="/privacy">Privacy Policy</a> for full details.
+            your device. See our <a href="/privacy/">Privacy Policy</a> for full details.
           </p>
 
           <h2>Contact</h2>
           <p>
             Have a suggestion for a new calculator, found an error in a formula, or want to report a bug?
-            We'd love to hear from you. Visit our <a href="/contact">Contact page</a> to get in touch.
+            We'd love to hear from you. Visit our <a href="/contact/">Contact page</a> to get in touch.
           </p>
 
         </div>
@@ -127,13 +127,13 @@ import { calculators, categories } from '../data/calculators';
             <p class="aside-label">Quick Links</p>
             <ul class="aside-links">
               <li><a href="/">All Calculators</a></li>
-              <li><a href="/landscaping">Landscaping</a></li>
-              <li><a href="/construction">Construction</a></li>
-              <li><a href="/pavers-outdoor">Pavers &amp; Outdoor</a></li>
-              <li><a href="/lumber-woodworking">Lumber &amp; Woodworking</a></li>
-              <li><a href="/privacy">Privacy Policy</a></li>
-              <li><a href="/terms">Terms of Use</a></li>
-              <li><a href="/contact">Contact</a></li>
+              <li><a href="/landscaping/">Landscaping</a></li>
+              <li><a href="/construction/">Construction</a></li>
+              <li><a href="/pavers-outdoor/">Pavers &amp; Outdoor</a></li>
+              <li><a href="/lumber-woodworking/">Lumber &amp; Woodworking</a></li>
+              <li><a href="/privacy/">Privacy Policy</a></li>
+              <li><a href="/terms/">Terms of Use</a></li>
+              <li><a href="/contact/">Contact</a></li>
             </ul>
           </div>
         </aside>
@@ -185,4 +185,10 @@ import { calculators, categories } from '../data/calculators';
   .page-title { font-size: 32px; }
 }
 @media (max-width: 600px) { .container { padding: 0 16px; } }
+
+/* ── Dark mode overrides ──────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .aside-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
+}
+:global(html[data-theme="dark"]) .aside-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
 </style>

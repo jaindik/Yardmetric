@@ -1,0 +1,11 @@
+# https://yardmetric.com/robots.txt
+
+# Allow all crawlers full access
+User-agent: *
+Allow: /
+
+# Exclude compiled asset bundles — not indexable content
+Disallow: /_astro/
+
+# Sitemap index
+Sitemap: https://yardmetric.com/sitemap-index.xml

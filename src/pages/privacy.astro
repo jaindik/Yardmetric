@@ -1,0 +1,119 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Privacy Policy — Yard Metric"
+  description="Yard Metric does not collect personal information, require accounts, or track users. All calculations happen locally in your browser."
+  canonical="https://yardmetric.com/privacy/"
+>
+  <NavBar />
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="/" class="breadcrumb-link">Home</a>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-current">Privacy Policy</span>
+        </nav>
+        <h1 class="page-title">Privacy Policy</h1>
+        <p class="page-lead">Last updated: June 2025</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="prose">
+
+          <h2>The short version</h2>
+          <p>
+            We do not collect your personal information. We do not require an account. We do not
+            sell or share data with third parties for advertising. Your calculation history never
+            leaves your device.
+          </p>
+
+          <h2>What we collect</h2>
+          <p>
+            Nothing personally identifiable. Yard Metric is a static website. All
+            calculations run entirely in your browser using JavaScript. No calculation inputs,
+            results, or usage data are transmitted to our servers.
+          </p>
+          <p>
+            Your most recent inputs and calculation history are saved using your browser's
+            <code>localStorage</code>. This data stays on your device and is never sent anywhere.
+            You can clear it at any time through your browser settings or by using the
+            "Clear history" button on any calculator.
+          </p>
+
+          <h2>Cookies</h2>
+          <p>
+            We do not use tracking cookies or advertising cookies. Your dark/light mode preference
+            is stored in <code>localStorage</code> on your device only.
+          </p>
+
+          <h2>Third-party services</h2>
+          <p>
+            We load fonts from Google Fonts. When your browser fetches these fonts, Google's servers
+            receive your IP address as part of a standard HTTP request. This is governed by
+            Google's own privacy policy. No other third-party services, analytics platforms,
+            or advertising networks are used on this site.
+          </p>
+
+          <h2>Server logs</h2>
+          <p>
+            Our hosting provider may retain standard web server access logs (IP address, browser
+            type, pages visited, timestamps) for a limited period for security and operational
+            purposes. We do not use these logs to identify individuals.
+          </p>
+
+          <h2>Children</h2>
+          <p>
+            This site is not directed at children under 13 and we do not knowingly collect
+            information from children.
+          </p>
+
+          <h2>Changes to this policy</h2>
+          <p>
+            If we make material changes to this policy, we will update the "Last updated" date
+            at the top of this page. Continued use of the site after changes constitutes
+            acceptance of the updated policy.
+          </p>
+
+          <h2>Contact</h2>
+          <p>
+            Questions about this policy? <a href="/contact/">Contact us</a> and we'll respond
+            as quickly as we can.
+          </p>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+.container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+.section { padding: 64px 0 80px; }
+.hero { background: var(--color-canvas); border-bottom: 1px solid var(--color-hairline); padding: 40px 0 48px; }
+.breadcrumb { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-mute); margin-bottom: 24px; }
+.breadcrumb-link { color: var(--color-body); text-decoration: none; }
+.breadcrumb-link:hover { color: var(--color-ink); }
+.breadcrumb-sep { color: var(--color-hairline-strong); }
+.breadcrumb-current { color: var(--color-ink); font-weight: 500; }
+.page-title { font-size: 40px; font-weight: 600; letter-spacing: -1.8px; color: var(--color-ink); margin-bottom: 8px; }
+.page-lead { font-size: 13px; color: var(--color-mute); font-family: var(--font-mono); }
+
+.prose h2 { font-size: 20px; font-weight: 600; letter-spacing: -0.6px; color: var(--color-ink); margin-top: 40px; margin-bottom: 10px; }
+.prose h2:first-child { margin-top: 0; }
+.prose p { font-size: 15px; color: var(--color-body); line-height: 26px; margin-bottom: 14px; }
+.prose a { color: var(--color-link); }
+.prose a:hover { text-decoration: underline; }
+.prose code { font-family: var(--font-mono); font-size: 13px; background: var(--color-canvas-soft-2); padding: 1px 6px; border-radius: 4px; color: var(--color-ink); }
+
+@media (max-width: 600px) { .container { padding: 0 16px; } .page-title { font-size: 32px; } }
+</style>

@@ -1,23 +1,23 @@
 ---
 const navLinks = [
-  { href: '/landscaping', label: 'Landscaping' },
-  { href: '/construction', label: 'Construction' },
-  { href: '/pavers-outdoor', label: 'Pavers & Outdoor' },
-  { href: '/lumber-woodworking', label: 'Lumber' },
+  { href: '/landscaping/', label: 'Landscaping' },
+  { href: '/construction/', label: 'Construction' },
+  { href: '/pavers-outdoor/', label: 'Pavers & Outdoor' },
+  { href: '/lumber-woodworking/', label: 'Lumber' },
 ];
 const currentPath = Astro.url.pathname;
 ---
 
 <header class="nav-bar" id="navbar">
   <div class="nav-inner">
-    <a href="/" class="nav-logo" aria-label="Material Calculator Hub home">
+    <a href="/" class="nav-logo" aria-label="Yard Metric home">
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <rect width="8" height="8" rx="1.5" fill="#171717"/>
-        <rect x="12" width="8" height="8" rx="1.5" fill="#171717" opacity=".4"/>
-        <rect y="12" width="8" height="8" rx="1.5" fill="#171717" opacity=".4"/>
-        <rect x="12" y="12" width="8" height="8" rx="1.5" fill="#171717" opacity=".7"/>
+        <rect width="8" height="8" rx="1.5" fill="currentColor"/>
+        <rect x="12" width="8" height="8" rx="1.5" fill="currentColor" opacity=".4"/>
+        <rect y="12" width="8" height="8" rx="1.5" fill="currentColor" opacity=".4"/>
+        <rect x="12" y="12" width="8" height="8" rx="1.5" fill="currentColor" opacity=".7"/>
       </svg>
-      <span class="nav-logo-text">Material Calculator Hub</span>
+      <span class="nav-logo-text">Yard Metric</span>
     </a>
 
     <nav class="nav-links" aria-label="Main navigation">
@@ -30,6 +30,16 @@ const currentPath = Astro.url.pathname;
         </a>
       ))}
     </nav>
+
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark mode">
+      <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M13.5 9A5.5 5.5 0 0 1 7 2.5a.5.5 0 0 0-.6-.6A6 6 0 1 0 14.1 9.6a.5.5 0 0 0-.6-.6Z" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round"/>
+      </svg>
+      <svg class="icon-sun" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="8" cy="8" r="3" stroke="currentColor" stroke-width="1.25"/>
+        <path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.4 3.4l1.07 1.07M11.53 11.53l1.07 1.07M12.6 3.4l-1.07 1.07M4.47 11.53l-1.07 1.07" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+      </svg>
+    </button>
 
     <button class="nav-mobile-toggle" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,6 +57,9 @@ const currentPath = Astro.url.pathname;
       {navLinks.map((link) => (
         <a href={link.href} class="mobile-nav-link">{link.label}</a>
       ))}
+      <div class="mobile-nav-divider" aria-hidden="true"></div>
+      <a href="/about/" class="mobile-nav-link mobile-nav-link-muted">About</a>
+      <a href="/contact/" class="mobile-nav-link mobile-nav-link-muted">Contact</a>
     </nav>
   </div>
 </header>
@@ -116,6 +129,38 @@ const currentPath = Astro.url.pathname;
     font-weight: 500;
   }
 
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-body);
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+  }
+  .theme-toggle:hover {
+    background: var(--color-canvas-soft-2);
+    color: var(--color-ink);
+  }
+
+  /* Moon shown by default (light mode) */
+  .icon-sun { display: none; }
+
+  /* Dark mode: show sun, hide moon */
+  @media (prefers-color-scheme: dark) {
+    :global(html:not([data-theme="light"])) .icon-moon { display: none; }
+    :global(html:not([data-theme="light"])) .icon-sun { display: flex; }
+  }
+  :global(html[data-theme="dark"]) .icon-moon { display: none; }
+  :global(html[data-theme="dark"]) .icon-sun { display: flex; }
+  :global(html[data-theme="light"]) .icon-moon { display: flex; }
+  :global(html[data-theme="light"]) .icon-sun { display: none; }
+
   .nav-mobile-toggle {
     display: none;
     align-items: center;
@@ -160,6 +205,17 @@ const currentPath = Astro.url.pathname;
     background: var(--color-canvas-soft-2);
   }
 
+  .mobile-nav-divider {
+    height: 1px;
+    background: var(--color-hairline);
+    margin: 4px 0;
+  }
+
+  .mobile-nav-link-muted {
+    color: var(--color-body);
+    font-size: 14px;
+  }
+
   @media (max-width: 768px) {
     .nav-links {
       display: none;
@@ -179,6 +235,7 @@ const currentPath = Astro.url.pathname;
 </style>
 
 <script>
+  // Mobile menu
   const btn = document.getElementById('mobile-menu-btn');
   const menu = document.getElementById('mobile-menu');
   if (btn && menu) {
@@ -187,5 +244,28 @@ const currentPath = Astro.url.pathname;
       menu.hidden = isOpen;
       btn.setAttribute('aria-expanded', String(!isOpen));
     });
+  }
+
+  // Theme toggle
+  const themeToggle = document.getElementById('theme-toggle');
+  function getCurrentTheme(): string {
+    return document.documentElement.getAttribute('data-theme') || 'light';
+  }
+  function applyTheme(theme: string) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('theme', theme); } catch (_) {}
+    if (themeToggle) {
+      themeToggle.setAttribute(
+        'aria-label',
+        theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'
+      );
+    }
+  }
+  themeToggle?.addEventListener('click', () => {
+    applyTheme(getCurrentTheme() === 'dark' ? 'light' : 'dark');
+  });
+  // Set initial aria-label based on current theme
+  if (themeToggle) {
+    applyTheme(getCurrentTheme());
   }
 </script>

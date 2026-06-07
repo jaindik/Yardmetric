@@ -12,7 +12,7 @@ import { categories, calculators } from '../data/calculators';
           <rect y="12" width="8" height="8" rx="1.5" fill="currentColor" opacity=".4"/>
           <rect x="12" y="12" width="8" height="8" rx="1.5" fill="currentColor" opacity=".7"/>
         </svg>
-        <span>Material Calculator Hub</span>
+        <span>Yard Metric</span>
       </a>
       <p class="footer-tagline">Free, accurate material calculators for construction, landscaping, and DIY projects.</p>
     </div>
@@ -26,11 +26,11 @@ import { categories, calculators } from '../data/calculators';
             .slice(0, 6)
             .map((c) => (
               <li>
-                <a href={`/calculators/${c.slug}`}>{c.name}</a>
+                <a href={`/calculators/${c.slug}/`}>{c.name}</a>
               </li>
             ))}
           <li>
-            <a href={`/${cat.slug}`}>All {cat.name} →</a>
+            <a href={`/${cat.slug}/`}>All {cat.name} →</a>
           </li>
         </ul>
       </div>
@@ -39,7 +39,13 @@ import { categories, calculators } from '../data/calculators';
 
   <div class="footer-bottom">
     <div class="footer-bottom-inner">
-      <p class="footer-copy">© {new Date().getFullYear()} Material Calculator Hub. All calculators are provided for estimation purposes only.</p>
+      <p class="footer-copy">© {new Date().getFullYear()} Yard Metric. All calculators are provided for estimation purposes only.</p>
+      <nav class="footer-legal" aria-label="Legal">
+        <a href="/about/">About</a>
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <a href="/contact/">Contact</a>
+      </nav>
     </div>
   </div>
 </footer>
@@ -119,11 +125,33 @@ import { categories, calculators } from '../data/calculators';
     max-width: 1400px;
     margin: 0 auto;
     padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
   }
 
   .footer-copy {
     font-size: 12px;
     color: var(--color-mute);
+  }
+
+  .footer-legal {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .footer-legal a {
+    font-size: 12px;
+    color: var(--color-mute);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-legal a:hover {
+    color: var(--color-body);
   }
 
   @media (max-width: 1024px) {
