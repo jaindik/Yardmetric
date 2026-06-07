@@ -58,18 +58,18 @@ const fullTitle = title.includes('Yard Metric') ? title : `${title} | Yard Metri
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site).toString()} />
 
-    <!-- Fonts: Geist via CDN -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
-
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3E0MCKRZT" is:inline></script>
+    <!-- Google Analytics (deferred — loaded after page is interactive) -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-D3E0MCKRZT');
+      window.addEventListener('load', function() {
+        var s = document.createElement('script');
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-D3E0MCKRZT';
+        s.async = true;
+        document.head.appendChild(s);
+      });
     </script>
 
     <!-- JSON-LD Structured Data -->
