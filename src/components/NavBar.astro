@@ -4,6 +4,7 @@ const navLinks = [
   { href: '/construction/', label: 'Construction' },
   { href: '/pavers-outdoor/', label: 'Pavers & Outdoor' },
   { href: '/lumber-woodworking/', label: 'Lumber' },
+  { href: '/guides/', label: 'Guides' },
 ];
 const currentPath = Astro.url.pathname;
 ---
@@ -58,6 +59,8 @@ const currentPath = Astro.url.pathname;
         <a href={link.href} class="mobile-nav-link">{link.label}</a>
       ))}
       <div class="mobile-nav-divider" aria-hidden="true"></div>
+      <a href="/guides/" class="mobile-nav-link mobile-nav-link-muted">Guides</a>
+      <a href="/methodology/" class="mobile-nav-link mobile-nav-link-muted">Methodology</a>
       <a href="/about/" class="mobile-nav-link mobile-nav-link-muted">About</a>
       <a href="/contact/" class="mobile-nav-link mobile-nav-link-muted">Contact</a>
     </nav>

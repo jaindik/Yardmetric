@@ -71,7 +71,7 @@ const depthSuffix = mode === 'volume' ? 'in' :
 
   <!-- Form -->
   <div class="calc-form">
-    {/* Unit toggle — only for volume modes */}
+    {/* Unit toggle - only for volume modes */}
     {['volume', 'rebar'].includes(mode) && (
       <div class="calc-unit-row">
         <span class="calc-unit-label">Unit system</span>
@@ -143,7 +143,7 @@ const depthSuffix = mode === 'volume' ? 'in' :
       )}
     </div>
 
-    {/* Waste factor — volume and area-coverage modes */}
+    {/* Waste factor - volume and area-coverage modes */}
     {['volume', 'rebar', 'paver', 'tile', 'brick', 'block', 'flooring', 'decking', 'drywall', 'paint', 'roofing', 'fence'].includes(mode) && (
       <div class="calc-waste-row">
         <span class="calc-label">Waste / overage</span>

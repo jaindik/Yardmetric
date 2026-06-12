@@ -59,6 +59,19 @@ const faqStructuredData = JSON.stringify({
     acceptedAnswer: { '@type': 'Answer', text: faq.a },
   })),
 });
+
+const howToStructuredData = calculator.howToSteps ? JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: `How to Use the ${calculator.name}`,
+  description: calculator.description,
+  step: calculator.howToSteps.map((s, i) => ({
+    '@type': 'HowToStep',
+    position: i + 1,
+    name: s.name,
+    text: s.text,
+  })),
+}) : null;
 ---
 
 <Layout
@@ -69,6 +82,7 @@ const faqStructuredData = JSON.stringify({
   <Fragment slot="structured-data">
     <script type="application/ld+json" set:html={structuredData} />
     <script type="application/ld+json" set:html={faqStructuredData} />
+    {howToStructuredData && <script type="application/ld+json" set:html={howToStructuredData} />}
   </Fragment>
 
   <NavBar />
@@ -102,6 +116,14 @@ const faqStructuredData = JSON.stringify({
             </div>
             <h1 class="calc-title">{calculator.name}</h1>
             <p class="calc-subtitle">{calculator.description}</p>
+            {calculator.applications && calculator.applications.length > 0 && (
+              <div class="learn-block">
+                <p class="learn-label">What this page covers:</p>
+                <ul class="learn-list">
+                  {calculator.applications.map((app) => <li>{app}</li>)}
+                </ul>
+              </div>
+            )}
           </div>
 
           <!-- Right: calculator widget -->
@@ -115,20 +137,63 @@ const faqStructuredData = JSON.stringify({
     <!-- SEO Content -->
     <div class="container seo-content">
 
-      <!-- Introduction -->
-      <section class="content-section">
-        <h2>How to Use the {calculator.name}</h2>
-        <p>
-          The {calculator.name} helps you quickly determine the exact amount of material needed for your project.
-          Enter your project dimensions (length, width, and depth) and the calculator instantly shows results in
-          multiple units including cubic yards, cubic feet, tons, and number of bags.
-        </p>
-        <p>
-          This calculator is designed for {calculator.category.toLowerCase()} professionals and homeowners who need
-          accurate material estimates before ordering supplies. Use the preset buttons for common project sizes, or
-          enter custom dimensions for your specific project.
-        </p>
-      </section>
+      <!-- Material Overview -->
+      {calculator.materialInfo && (
+        <section class="content-section">
+          <h2>About {calculator.name.replace(' Calculator', '')}</h2>
+          {calculator.materialInfo.split('\n\n').map((para) => (
+            <p>{para}</p>
+          ))}
+        </section>
+      )}
+
+      <!-- Common Uses -->
+      {calculator.applications && calculator.applications.length > 0 && (
+        <section class="content-section">
+          <h2>Common Uses</h2>
+          <ul class="content-list">
+            {calculator.applications.map((app) => <li>{app}</li>)}
+          </ul>
+        </section>
+      )}
+
+      <!-- Professional Tips -->
+      {calculator.proTips && calculator.proTips.length > 0 && (
+        <section class="content-section">
+          <h2>Professional Tips</h2>
+          <ul class="content-list">
+            {calculator.proTips.map((tip) => <li>{tip}</li>)}
+          </ul>
+        </section>
+      )}
+
+      <!-- Common Mistakes -->
+      {calculator.commonMistakes && calculator.commonMistakes.length > 0 && (
+        <section class="content-section">
+          <h2>Common Mistakes to Avoid</h2>
+          <ul class="content-list">
+            {calculator.commonMistakes.map((mistake) => <li>{mistake}</li>)}
+          </ul>
+        </section>
+      )}
+
+      <!-- Waste & Ordering -->
+      {calculator.wasteFactor && (
+        <section class="content-section">
+          <h2>Waste &amp; Ordering Recommendation</h2>
+          <p>{calculator.wasteFactor}</p>
+        </section>
+      )}
+
+      <!-- Buying Tips -->
+      {calculator.buyingTips && calculator.buyingTips.length > 0 && (
+        <section class="content-section">
+          <h2>Buying Tips</h2>
+          <ul class="content-list">
+            {calculator.buyingTips.map((tip) => <li>{tip}</li>)}
+          </ul>
+        </section>
+      )}
 
       <!-- Formula -->
       <section class="content-section">
@@ -137,6 +202,9 @@ const faqStructuredData = JSON.stringify({
           <pre class="formula-code">{calculator.formula}</pre>
         </div>
         <p class="formula-note">{calculator.formulaNote}</p>
+        <p class="formula-note" style="margin-top:8px;">
+          <a href="/methodology/" class="methodology-link">How we calculate density values and conversion factors →</a>
+        </p>
       </section>
 
       <!-- Examples -->
@@ -151,6 +219,7 @@ const faqStructuredData = JSON.stringify({
                   <span>{ex.length} × {ex.width} {ex.unit}</span>
                   {ex.depth > 0 && <span>× {ex.depth}" deep</span>}
                 </div>
+                {ex.result && <p class="example-result">= {ex.result}</p>}
               </div>
             ))}
           </div>
@@ -169,6 +238,20 @@ const faqStructuredData = JSON.stringify({
           ))}
         </div>
       </section>
+
+      <!-- Related Guides -->
+      {calculator.guides && calculator.guides.length > 0 && (
+        <section class="content-section">
+          <h2>Related Guides</h2>
+          <div class="guides-list">
+            {calculator.guides.map((guide) => (
+              guide.href
+                ? <a href={guide.href} class="guide-link">{guide.title} →</a>
+                : <span class="guide-link guide-link--soon">{guide.title} <span class="coming-soon">coming soon</span></span>
+            ))}
+          </div>
+        </section>
+      )}
 
       <!-- Related calculators -->
       {related.length > 0 && (
@@ -356,6 +439,18 @@ const faqStructuredData = JSON.stringify({
   max-width: 640px;
 }
 
+.content-list {
+  margin: 0;
+  padding: 0 0 0 20px;
+  max-width: 720px;
+}
+.content-list li {
+  font-size: 16px;
+  color: var(--color-body);
+  line-height: 26px;
+  margin-bottom: 8px;
+}
+
 .examples-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -529,6 +624,93 @@ details[open] .faq-q::after {
 }
 .popular-name { font-size: 13px; font-weight: 600; color: var(--color-ink); letter-spacing: -0.2px; margin-bottom: 2px; }
 .popular-cat { font-size: 11px; color: var(--color-mute); }
+
+.learn-block {
+  margin-top: 20px;
+  padding: 16px 20px;
+  background: var(--color-canvas-soft);
+  border-left: 3px solid var(--color-ink);
+  border-radius: 0 6px 6px 0;
+  max-width: 480px;
+}
+.learn-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-mute);
+  margin-bottom: 8px;
+}
+.learn-list {
+  margin: 0;
+  padding: 0 0 0 16px;
+}
+.learn-list li {
+  font-size: 13px;
+  color: var(--color-body);
+  line-height: 22px;
+  margin-bottom: 2px;
+}
+
+.example-result {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-ink);
+  font-weight: 600;
+  margin: 6px 0 0;
+  padding-top: 6px;
+  border-top: 1px solid var(--color-hairline);
+}
+
+.methodology-link {
+  color: var(--color-link);
+  text-decoration: none;
+  font-size: 13px;
+}
+.methodology-link:hover { text-decoration: underline; }
+
+.guides-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 560px;
+}
+.guide-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-link);
+  text-decoration: none;
+  padding: 12px 16px;
+  background: var(--color-canvas);
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.07);
+  transition: all 0.15s;
+}
+.guide-link:hover {
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.12), 0 4px 12px rgba(0,0,0,0.06);
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+.guide-link--soon {
+  color: var(--color-mute);
+  cursor: default;
+}
+.guide-link--soon:hover {
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.07);
+  transform: none;
+}
+.coming-soon {
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--color-mute);
+  background: var(--color-canvas-soft-2);
+  padding: 2px 6px;
+  border-radius: 100px;
+  letter-spacing: 0.03em;
+}
 
 @media (max-width: 900px) {
   .calc-layout {

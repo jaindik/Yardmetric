@@ -1,0 +1,308 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="How Our Calculators Work – Formulas, Density Values & Standards | Yard Metric"
+  description="The exact formulas, material density values, compaction assumptions, and industry standards behind every Yard Metric calculator. Transparent methodology for accurate estimates."
+  canonical="https://yardmetric.com/methodology/"
+>
+  <NavBar />
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <p class="eyebrow">Transparency</p>
+        <h1 class="page-title">How Our Calculators Work</h1>
+        <p class="page-subtitle">Every Yard Metric calculator uses industry-standard formulas and published material density values. This page documents the exact methodology behind every result - so you can verify the math before placing an order.</p>
+      </div>
+
+      <div class="content">
+
+        <section class="section">
+          <h2>The Core Volume Formula</h2>
+          <p>Every volume-based calculator (gravel, sand, mulch, topsoil, concrete, asphalt, and others) uses the same fundamental formula:</p>
+          <div class="formula-block">
+            <pre class="formula-code">Volume (cu yd) = Length (ft) × Width (ft) × Depth (in) ÷ 324</pre>
+          </div>
+          <p>The divisor 324 comes from: <strong>12 inches per foot × 27 cubic feet per cubic yard = 324</strong>. This converts a square-foot area multiplied by a depth in inches directly to cubic yards in a single step.</p>
+          <p>To convert cubic yards to weight:</p>
+          <div class="formula-block">
+            <pre class="formula-code">Weight (tons) = Volume (cu yd) × Density (lbs/yd³) ÷ 2,000</pre>
+          </div>
+          <p>Where 2,000 is the number of pounds in a US short ton. We apply material-specific density values (listed below) rather than a single generic number.</p>
+        </section>
+
+        <section class="section">
+          <h2>Material Density Values</h2>
+          <p>Density is the most important variable in converting volume to weight. The values below are standard industry ranges. Our calculators use the midpoint of each range as the default.</p>
+          <div class="table-wrapper">
+            <table class="density-table">
+              <thead>
+                <tr>
+                  <th>Material</th>
+                  <th>Density (lbs/yd³)</th>
+                  <th>Tons per Cubic Yard</th>
+                  <th>Source / Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Crushed Gravel (#57, 3/4")</td><td>2,800</td><td>1.40</td><td>Standard angular crushed stone; varies ±5% by rock type</td></tr>
+                <tr><td>Pea Gravel (1/4"–3/8")</td><td>2,600</td><td>1.30</td><td>Rounded natural stone; slightly lower bulk density than angular</td></tr>
+                <tr><td>Crushed Stone (limestone)</td><td>2,700</td><td>1.35</td><td>Limestone quarry standard; trap rock is ~5% denser</td></tr>
+                <tr><td>River Rock</td><td>2,800</td><td>1.40</td><td>Smooth rounded cobbles; larger stones reduce bulk density slightly</td></tr>
+                <tr><td>Sand (dry concrete sand)</td><td>2,700</td><td>1.35</td><td>ASTM C33 coarse concrete sand, dry; wet sand adds 10%</td></tr>
+                <tr><td>Topsoil (screened)</td><td>2,200</td><td>1.10</td><td>Typical screened loamy topsoil; varies with moisture and organic content</td></tr>
+                <tr><td>Fill Dirt</td><td>2,100</td><td>1.05</td><td>Compacted subsoil; varies significantly by clay vs sand content</td></tr>
+                <tr><td>Compost</td><td>800</td><td>0.40</td><td>Finished thermophilic compost; much lighter than mineral soils</td></tr>
+                <tr><td>Mulch (wood chips / bark)</td><td>600</td><td>0.30</td><td>Average across bark and wood chip types; fine shredded is lighter</td></tr>
+                <tr><td>Rubber Mulch</td><td>1,600</td><td>0.80</td><td>Shredded recycled tire; approximately 2× heavier than wood mulch</td></tr>
+                <tr><td>Concrete (standard mix)</td><td>4,050</td><td>2.03</td><td>ACI standard 3,000–4,000 psi mix; varies with aggregate type</td></tr>
+                <tr><td>Asphalt (hot mix)</td><td>3,915</td><td>1.96</td><td>Standard hot-mix asphalt; density after compaction is ~5% higher</td></tr>
+                <tr><td>Road Base / Crusher Run</td><td>2,700</td><td>1.35</td><td>Compacted base material with fines; angular stone plus screenings</td></tr>
+                <tr><td>Aggregate (general)</td><td>2,700</td><td>1.35</td><td>Standard crushed aggregate; use specific calculator for precise type</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">All density values are for dry, loose material as delivered. Wet material weighs up to 10% more. Compacted material weighs up to 15% more per original loose cubic yard due to reduced void space.</p>
+        </section>
+
+        <section class="section">
+          <h2>Compaction Assumptions</h2>
+          <p>Our calculators output the <strong>loose delivered volume</strong> you need to order, not the finished compacted volume. The difference is the compaction factor.</p>
+          <div class="table-wrapper">
+            <table class="density-table">
+              <thead>
+                <tr>
+                  <th>Material</th>
+                  <th>Compaction Loss</th>
+                  <th>Practical Meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Crushed Stone / Gravel</td><td>10–15%</td><td>7 loose yd³ compacts to ~6–6.3 finished yd³</td></tr>
+                <tr><td>Road Base / Crusher Run</td><td>15–20%</td><td>High fines content means significant volume reduction</td></tr>
+                <tr><td>Sand (structural)</td><td>5–10%</td><td>Concrete sand under pavers: screed 1" and it stays 1"</td></tr>
+                <tr><td>Topsoil</td><td>10–15%</td><td>Settles after first watering; order 10% extra</td></tr>
+                <tr><td>Fill Dirt</td><td>15–20%</td><td>Uncompacted fill can settle dramatically - always compact in lifts</td></tr>
+                <tr><td>Mulch (organic)</td><td>10–15%</td><td>Compresses after first rain; fine shredded settles more than chips</td></tr>
+                <tr><td>Pea Gravel</td><td>0–5%</td><td>Round stone does not compact; minimal settlement</td></tr>
+                <tr><td>Concrete (mixed)</td><td>~5%</td><td>Standard overage for forms, spillage, and slight over-excavation</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>The waste factor recommendations on each calculator page already account for these compaction losses. The default "add 10–15%" guidance reflects the values above for each material type.</p>
+        </section>
+
+        <section class="section">
+          <h2>Weight Conversion Reference</h2>
+          <div class="formula-block">
+            <pre class="formula-code">Tons (short) = Pounds ÷ 2,000
+Cubic Yards = Cubic Feet ÷ 27
+Cubic Feet = Length (ft) × Width (ft) × Depth (ft)
+Cubic Yards = Length (ft) × Width (ft) × Depth (in) ÷ 324</pre>
+          </div>
+          <p>US suppliers use short tons (2,000 lbs). Do not confuse with metric tonnes (2,205 lbs) or long tons (2,240 lbs). All Yard Metric calculators output US short tons.</p>
+        </section>
+
+        <section class="section">
+          <h2>Standards Referenced</h2>
+          <ul class="standards-list">
+            <li><strong>ASTM C33</strong> - Standard Specification for Concrete Aggregates. This is the specification for coarse concrete sand used in paver setting beds and concrete mixes.</li>
+            <li><strong>ASTM F1292</strong> - Standard Specification for Impact Attenuation of Surfacing Materials Within the Use Zone of Playground Equipment. Minimum depth requirements for pea gravel, rubber mulch, and wood chips under playground equipment are derived from this standard.</li>
+            <li><strong>ACI 318</strong> - Building Code Requirements for Structural Concrete. Minimum slab thickness and reinforcement guidance for concrete driveway and slab calculators.</li>
+            <li><strong>AASHTO T 180</strong> - Standard Method of Test for Moisture-Density Relations of Soils. Referenced for compaction factors on fill dirt and road base calculations.</li>
+            <li><strong>IPEMA</strong> - International Play Equipment Manufacturers Association. Certification standard referenced in rubber mulch and pea gravel playground safety guidance.</li>
+          </ul>
+        </section>
+
+        <section class="section">
+          <h2>Wet vs Dry Weight</h2>
+          <p>Bulk landscape and construction materials are often weighed at the quarry or yard after sitting in outdoor storage - which means they are frequently wet. Wet sand, gravel, and soil weigh 5–10% more per cubic yard than dry material.</p>
+          <p>This matters when ordering by ton: a supplier quoting a wet-weight ton price is delivering slightly less volume per ton than a dry-weight price implies. For critical applications, order by the cubic yard rather than by weight, and confirm the unit with your supplier before placing a large order.</p>
+        </section>
+
+        <section class="section">
+          <h2>Bag Count Calculation</h2>
+          <p>Where bag counts are displayed, the calculation is:</p>
+          <div class="formula-block">
+            <pre class="formula-code">Bags = (Volume in cu yd × Density in lbs/yd³) ÷ Bag weight in lbs</pre>
+          </div>
+          <p>Bag counts are always rounded up to the nearest whole bag. The bag weight used in each calculator matches the most common retail bag size for that material (50 lb for gravel and sand, 40 lb for topsoil and fill dirt, 2 cu ft bags for mulch).</p>
+        </section>
+
+        <section class="section">
+          <h2>Questions About the Methodology</h2>
+          <p>If you find an error in our density values, formulas, or standard references, or if you work in a region where standard values differ significantly, we want to know. Accurate calculators are the core product - feedback improves accuracy for everyone.</p>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.page-header {
+  padding: 56px 0 48px;
+  border-bottom: 1px solid var(--color-hairline);
+  margin-bottom: 56px;
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-mute);
+  margin-bottom: 12px;
+}
+
+.page-title {
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -1.6px;
+  color: var(--color-ink);
+  line-height: 44px;
+  margin-bottom: 16px;
+}
+
+.page-subtitle {
+  font-size: 17px;
+  color: var(--color-body);
+  line-height: 28px;
+  max-width: 680px;
+}
+
+.content {
+  padding-bottom: 80px;
+}
+
+.section {
+  margin-bottom: 56px;
+}
+
+.section h2 {
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.96px;
+  color: var(--color-ink);
+  margin-bottom: 16px;
+}
+
+.section p {
+  font-size: 16px;
+  color: var(--color-body);
+  line-height: 26px;
+  margin-bottom: 14px;
+  max-width: 720px;
+}
+
+.formula-block {
+  background: var(--color-ink);
+  border-radius: 8px;
+  padding: 20px 24px;
+  margin: 16px 0;
+  overflow-x: auto;
+}
+
+.formula-code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: #e5e5e5;
+  line-height: 1.8;
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  margin: 16px 0;
+  border-radius: 8px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.07);
+}
+
+.density-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.density-table th {
+  background: var(--color-canvas-soft-2);
+  color: var(--color-ink);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.density-table td {
+  padding: 10px 14px;
+  color: var(--color-body);
+  border-bottom: 1px solid var(--color-hairline);
+  line-height: 20px;
+}
+
+.density-table tr:last-child td {
+  border-bottom: none;
+}
+
+.density-table tr:nth-child(even) td {
+  background: var(--color-canvas-soft);
+}
+
+.table-note {
+  font-size: 12px !important;
+  color: var(--color-mute) !important;
+  margin-top: 8px !important;
+}
+
+.standards-list {
+  margin: 0;
+  padding: 0 0 0 20px;
+  max-width: 720px;
+}
+
+.standards-list li {
+  font-size: 15px;
+  color: var(--color-body);
+  line-height: 26px;
+  margin-bottom: 12px;
+}
+
+.standards-list strong {
+  color: var(--color-ink);
+}
+
+@media (max-width: 600px) {
+  .page-title { font-size: 30px; letter-spacing: -1px; }
+  .container { padding: 0 16px; }
+  .page-header { padding: 36px 0 32px; }
+}
+
+@media (prefers-color-scheme: dark) {
+  :global(html:not([data-theme="light"])) .formula-block {
+    background: var(--color-canvas-soft-2);
+    border: 1px solid var(--color-hairline);
+  }
+  :global(html:not([data-theme="light"])) .formula-code { color: #d4d4d4; }
+}
+:global(html[data-theme="dark"]) .formula-block {
+  background: var(--color-canvas-soft-2);
+  border: 1px solid var(--color-hairline);
+}
+:global(html[data-theme="dark"]) .formula-code { color: #d4d4d4; }
+</style>

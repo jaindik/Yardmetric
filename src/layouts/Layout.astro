@@ -36,7 +36,7 @@ const fullTitle = title.includes('Yard Metric') ? title : `${title} | Yard Metri
         } catch (_) {}
       })();
     </script>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
 
     <title>{fullTitle}</title>
@@ -58,7 +58,7 @@ const fullTitle = title.includes('Yard Metric') ? title : `${title} | Yard Metri
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(ogImage, Astro.site).toString()} />
 
-    <!-- Google Analytics (deferred — loaded after page is interactive) -->
+    <!-- Google Analytics (deferred - loaded after page is interactive) -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -70,6 +70,21 @@ const fullTitle = title.includes('Yard Metric') ? title : `${title} | Yard Metri
         s.async = true;
         document.head.appendChild(s);
       });
+    </script>
+
+    <!-- Organization Schema (site-wide) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Yard Metric",
+      "url": "https://yardmetric.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://yardmetric.com/favicon.ico"
+      },
+      "description": "Free material calculators for construction and landscaping. Calculate gravel, sand, mulch, topsoil, concrete, asphalt, lumber, and more."
+    }
     </script>
 
     <!-- JSON-LD Structured Data -->
