@@ -21,6 +21,14 @@ const structuredData = JSON.stringify({
   url: 'https://yardmetric.com',
   description: 'Free material calculators for construction, landscaping, and DIY projects.',
 });
+
+const orgData = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Yard Metric',
+  url: 'https://yardmetric.com',
+  description: 'Free material calculators for construction, landscaping, and DIY projects.',
+});
 ---
 
 <Layout
@@ -30,6 +38,7 @@ const structuredData = JSON.stringify({
 >
   <Fragment slot="structured-data">
     <script type="application/ld+json" set:html={structuredData} />
+    <script type="application/ld+json" set:html={orgData} />
   </Fragment>
 
   <NavBar />
@@ -260,10 +269,18 @@ const structuredData = JSON.stringify({
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 60% 50% at 70% 20%, rgba(0,124,240,0.07) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 85% 60%, rgba(121,40,202,0.05) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,223,216,0.05) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 55% at 78% -5%,  rgba(0,112,243,0.14)  0%, transparent 55%),
+    radial-gradient(ellipse 45% 45% at 95% 68%,  rgba(121,40,202,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 12% 98%,  rgba(0,198,180,0.10)  0%, transparent 55%),
+    radial-gradient(ellipse 35% 30% at 38% 8%,   rgba(34,197,94,0.07)  0%, transparent 50%);
   pointer-events: none;
+}
+.hero-mesh::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.055) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 .hero-inner { position: relative; z-index: 1; }
 .hero-badge {
@@ -551,9 +568,13 @@ details[open] .faq-q::after { transform: rotate(45deg); }
 @media (prefers-color-scheme: dark) {
   :global(html:not([data-theme="light"])) .hero-mesh {
     background:
-      radial-gradient(ellipse 60% 50% at 70% 20%, rgba(0,124,240,0.13) 0%, transparent 60%),
-      radial-gradient(ellipse 40% 40% at 85% 60%, rgba(121,40,202,0.09) 0%, transparent 60%),
-      radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,223,216,0.08) 0%, transparent 60%);
+      radial-gradient(ellipse 70% 55% at 78% -5%,  rgba(0,112,243,0.20)  0%, transparent 55%),
+      radial-gradient(ellipse 45% 45% at 95% 68%,  rgba(121,40,202,0.15) 0%, transparent 55%),
+      radial-gradient(ellipse 55% 45% at 12% 98%,  rgba(0,198,180,0.14)  0%, transparent 55%),
+      radial-gradient(ellipse 35% 30% at 38% 8%,   rgba(34,197,94,0.10)  0%, transparent 50%);
+  }
+  :global(html:not([data-theme="light"])) .hero-mesh::after {
+    background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
   }
   :global(html:not([data-theme="light"])) .btn-primary { color: var(--color-canvas); }
   :global(html:not([data-theme="light"])) .category-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }
@@ -568,9 +589,13 @@ details[open] .faq-q::after { transform: rotate(45deg); }
 }
 :global(html[data-theme="dark"]) .hero-mesh {
   background:
-    radial-gradient(ellipse 60% 50% at 70% 20%, rgba(0,124,240,0.13) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 85% 60%, rgba(121,40,202,0.09) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(0,223,216,0.08) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 55% at 78% -5%,  rgba(0,112,243,0.20)  0%, transparent 55%),
+    radial-gradient(ellipse 45% 45% at 95% 68%,  rgba(121,40,202,0.15) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 45% at 12% 98%,  rgba(0,198,180,0.14)  0%, transparent 55%),
+    radial-gradient(ellipse 35% 30% at 38% 8%,   rgba(34,197,94,0.10)  0%, transparent 50%);
+}
+:global(html[data-theme="dark"]) .hero-mesh::after {
+  background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
 }
 :global(html[data-theme="dark"]) .btn-primary { color: var(--color-canvas); }
 :global(html[data-theme="dark"]) .category-card { box-shadow: 0 0 0 1px rgba(255,255,255,0.07); }

@@ -52,6 +52,7 @@ export interface Category {
   slug: string;
   name: string;
   description: string;
+  seoDescription: string;
   icon: string;
   intro: string;
   guide: string;
@@ -65,6 +66,7 @@ export const categories: Category[] = [
     slug: 'landscaping',
     name: 'Landscaping',
     description: 'Calculate materials for garden beds, pathways, driveways, and outdoor projects.',
+    seoDescription: 'Free landscaping calculators for gravel, mulch, topsoil, sand, and more. Get instant cubic yards, tons, and bag counts for any project.',
     icon: '🌿',
     intro: `Accurate material estimates are the foundation of every successful landscaping project. Whether you're filling a raised garden bed with topsoil, laying gravel across a driveway, spreading mulch around a tree line, or building a drainage swale with crushed stone, ordering the right quantity saves money, prevents project delays, and eliminates the hassle of emergency re-orders or leftover material disposal.
 
@@ -88,6 +90,7 @@ Professional landscapers use the same formulas: Volume (cu yd) = Length (ft) × 
     slug: 'construction',
     name: 'Construction',
     description: 'Estimate concrete, asphalt, rebar, and structural materials accurately.',
+    seoDescription: 'Free construction calculators for concrete, asphalt, rebar, drywall, and more. Instant material estimates in cubic yards, tons, and bags.',
     icon: '🏗️',
     intro: `Construction material waste is one of the largest controllable costs on any project. Overordering concrete means paying to dispose of hardened waste; underordering means expensive rush deliveries, cold joints in poured concrete, and project delays. Getting the quantity right the first time is non-negotiable.
 
@@ -111,6 +114,7 @@ Our calculators cover the full scope of common construction materials: concrete 
     slug: 'pavers-outdoor',
     name: 'Pavers & Outdoor',
     description: 'Plan paver installations, base materials, and retaining walls.',
+    seoDescription: 'Free paver and outdoor calculators for pavers, paver sand, retaining walls, tile, and fencing. Instant coverage and material estimates.',
     icon: '🧱',
     intro: `A paver installation is only as good as its base. The most common reason pavers shift, settle, crack, or become uneven has nothing to do with the pavers themselves; it's an inadequate base. Professional installers know that the base preparation accounts for 80% of the work and nearly all of the long-term performance.
 
@@ -134,6 +138,7 @@ Material quality matters enormously for outdoor installations. Use Class II road
     slug: 'lumber-woodworking',
     name: 'Lumber & Woodworking',
     description: 'Calculate board feet, lumber quantities, and wood volumes.',
+    seoDescription: 'Free lumber calculators for board feet, decking, flooring, and framing quantities. Instant estimates for any woodworking or lumber project.',
     icon: '🪵',
     intro: `Lumber purchasing requires a different kind of calculation than bulk materials like gravel or concrete. Instead of cubic yards, the lumber industry uses board feet, a unit of volume that accounts for a board's thickness, width, and length simultaneously. Understanding this unit is essential for accurate purchasing, especially for hardwoods where the price per board foot varies dramatically by species.
 
@@ -166,7 +171,7 @@ export const calculators: Calculator[] = [
     categorySlug: 'landscaping',
     shortDesc: 'Calculate how much gravel you need for driveways, paths, and landscaping.',
     description: 'A 12×50 ft driveway at 4 inches deep needs 7.4 cubic yards - about 10.4 tons. Enter your dimensions below and get the exact gravel quantity for any driveway, path, drainage bed, or patio in seconds. Results include cubic yards, tons, and bag count with a built-in compaction factor.',
-    seoTitle: 'Gravel Calculator – Cubic Yards, Tons & Bags | Yard Metric',
+    seoTitle: 'Free Gravel Calculator – Cubic Yards, Tons & Bags | Yard Metric',
     seoDescription: 'Free gravel calculator: enter length, width, and depth to get cubic yards, tons, and bag count instantly. Covers driveways, paths, drainage, and garden beds.',
     icon: '⬛',
     calcMode: 'volume',
@@ -244,7 +249,7 @@ export const calculators: Calculator[] = [
     categorySlug: 'landscaping',
     shortDesc: 'Find out how much pea gravel you need for playgrounds, paths, and gardens.',
     description: 'Pea gravel weighs 1.3 tons per cubic yard - lighter than crushed stone but denser than mulch. For playground safety, ASTM F1292 requires a minimum 6-inch depth. Enter your dimensions to get exact cubic yards, tons, and bags for any decorative, drainage, or safety application.',
-    seoTitle: 'Pea Gravel Calculator – Cubic Yards, Tons & Bags | Yard Metric',
+    seoTitle: 'Free Pea Gravel Calculator – Cubic Yards, Tons & Bags | Yard Metric',
     seoDescription: 'Free pea gravel calculator: enter length, width, and depth to get cubic yards, tons, and bags. Covers playgrounds, garden paths, drainage, and decorative areas.',
     icon: '🟡',
     calcMode: 'volume',
@@ -316,7 +321,7 @@ export const calculators: Calculator[] = [
     categorySlug: 'landscaping',
     shortDesc: 'Calculate sand needed for paver bases, sandboxes, and leveling.',
     description: 'The type of sand matters as much as the quantity. Coarse concrete sand (ASTM C33) is required under pavers - play sand will cause pavers to sink within one season. Enter your dimensions to get exact cubic yards, tons, and bags for paver bases, sandboxes, volleyball courts, or leveling projects.',
-    seoTitle: 'Sand Calculator – Cubic Yards, Tons & Bags | Yard Metric',
+    seoTitle: 'Free Sand Calculator – Cubic Yards, Tons & Bags | Yard Metric',
     seoDescription: 'Free sand calculator: enter length, width, and depth to get cubic yards, tons, and bags. Covers paver bases, sandboxes, volleyball courts, and leveling.',
     icon: '🟤',
     calcMode: 'volume',
@@ -387,7 +392,7 @@ export const calculators: Calculator[] = [
     categorySlug: 'landscaping',
     shortDesc: 'Calculate the exact sand needed for your paver installation setting bed.',
     description: 'Determine the precise amount of bedding sand required under pavers. Calculate by area with standard 1-inch depth, or enter a custom depth for unusual applications.',
-    seoTitle: 'Paver Sand Calculator – Bedding Sand for Any Patio | Yard Metric',
+    seoTitle: 'Free Paver Sand Calculator – Bedding Sand for Any Patio | Yard Metric',
     seoDescription: 'Calculate exactly how much bedding sand you need under pavers. Enter area dimensions and get cubic yards and bags for a standard 1-inch concrete sand setting bed.',
     icon: '🟫',
     calcMode: 'volume',
@@ -403,11 +408,19 @@ export const calculators: Calculator[] = [
       { title: 'Driveway (12×20)', width: 12, length: 20, depth: 1, unit: 'ft' },
     ],
     faqs: [
-      { q: 'How thick should the sand layer be under pavers?', a: 'The sand setting bed should be exactly 1 inch (25mm) deep after compaction. More than 1.5 inches causes instability.' },
-      { q: 'Can I use play sand under pavers?', a: 'No, use coarse concrete sand or manufactured sand. Play sand is too fine and will wash out or shift over time.' },
-      { q: 'Do I need to compact the sand before laying pavers?', a: 'Screed (level) the sand with a screed board, but do not compact it before laying pavers. Compact only after the pavers are laid.' },
+      { q: 'How deep should paver sand be?', a: 'The standard paver bedding layer is 1 inch deep after screeding. A thicker sand layer can lead to uneven settling and shifting pavers over time. Do not exceed 1.5 inches.' },
+      { q: 'What type of sand should I use for pavers?', a: 'Most paver installations use coarse concrete sand, often called paver sand or bedding sand. It has angular particles that stay in place under load. Avoid play sand, masonry sand, and fill sand unless specifically recommended by the paver manufacturer.' },
+      { q: 'Can I use play sand under pavers?', a: 'No. Play sand is too fine and does not provide the stability needed for paver installations. Most paver projects use coarse concrete sand or paver bedding sand instead.' },
+      { q: 'How much paver sand do I need per square foot?', a: 'At the standard 1-inch depth, you need approximately 0.31 cubic yards per 100 square feet. For a quick estimate, divide your square footage by 100 and multiply by 0.31 to get cubic yards.' },
+      { q: 'How many bags of paver sand do I need?', a: 'A 50-lb bag of paver sand typically covers 3–4 sq ft at a 1-inch depth, but coverage varies by product and moisture content. Always check the manufacturer\'s stated coverage rate on the bag. For any patio over 150 sq ft, bulk delivery by the ton is more economical than bags.' },
+      { q: 'How thick should the sand layer be under pavers?', a: 'The sand setting bed should be exactly 1 inch (25mm) deep after screeding. More than 1.5 inches causes instability and increases the risk of pavers settling unevenly over time.' },
+      { q: 'Do I need to compact the sand before laying pavers?', a: 'Screed (level) the sand with a screed board, but do not compact it before laying pavers. The pavers themselves lock the bedding layer in place during final compaction.' },
+      { q: 'What is the difference between paver sand and polymeric sand?', a: 'Paver sand (coarse concrete sand) is the bedding layer that goes under pavers. Polymeric sand is swept into the joints between pavers after installation and hardens when wet to resist weeds and insects. Most installations use concrete sand beneath the pavers and polymeric sand in the joints, although some projects use traditional joint sand instead.' },
+      { q: 'How much polymeric sand do I need?', a: 'Coverage varies by joint width, paver thickness, and manufacturer. As a general starting point, a 50-lb bag covers roughly 25–50 sq ft. Always check the manufacturer\'s coverage rate on the bag for your specific paver and joint size.' },
+      { q: 'How do I convert paver sand from cubic yards to tons?', a: 'One cubic yard of concrete sand weighs approximately 1.35 tons. Multiply your cubic yard quantity by 1.35 to get tons. Most bulk sand suppliers quote by the ton, so use this conversion when placing your order.' },
+      { q: 'Does paver sand wash away?', a: 'Bedding sand under the pavers is protected from rain by the pavers themselves and does not wash away once installed. Joint sand between pavers can erode over time with regular concrete sand — polymeric joint sand hardens into a semi-rigid joint that resists erosion and weed growth.' },
     ],
-    materialInfo: 'The bedding sand layer under pavers is a precisely engineered component of the installation system, not filler. It must be coarse concrete sand (ASTM C33), screeded to exactly 1 inch after final grade, and must not be compacted before the pavers are set. The sand serves two functions: it allows minor leveling adjustments during installation, and it distributes surface load into the aggregate base below. Any deviation from the 1-inch depth standard significantly increases the risk of settlement and uneven paving.',
+    materialInfo: 'The bedding sand layer under pavers is a leveling medium, not filler. It should be coarse concrete sand screeded to exactly 1 inch after final grade, and must not be compacted before the pavers are set. The sand allows minor leveling adjustments during installation and distributes surface load into the aggregate base below. Check with your local supplier for the recommended paver sand product in your area — specifications and product names vary by region.',
     applications: [
       'Setting bed for concrete and brick paver patios',
       'Bedding layer under natural stone flagging on a compacted base',
@@ -426,9 +439,21 @@ export const calculators: Calculator[] = [
     ],
     wasteFactor: 'For a standard 1-inch paver bedding application, order 5% extra as a buffer for minor re-screeding and edge adjustment.',
     buyingTips: [
-      'Specify "ASTM C33 coarse concrete sand" when ordering - this is the only sand type that meets paver installation standards',
-      '50-lb bags cover about 3 sq ft at 1 inch deep; order bulk delivery for any patio over 100 sq ft',
-      'A single ton of concrete sand covers approximately 100 sq ft at the standard 1-inch setting bed depth',
+      'Ask for coarse concrete sand or paver bedding sand — these are consistent descriptions your supplier will recognize regardless of regional product naming',
+      '50-lb bags typically cover 3–4 sq ft at 1 inch deep depending on the product — check the manufacturer\'s coverage rate before estimating bag count',
+      'A ton of concrete sand covers approximately 100 sq ft at the standard 1-inch setting bed depth — use this as a cross-check on your order',
+    ],
+    howToSteps: [
+      { name: 'Calculate your paver area', text: 'Measure the length and width of your installation in feet and multiply to get square footage. For L-shaped or irregular areas, break into rectangles, calculate each, and add the results.' },
+      { name: 'Enter dimensions into the calculator', text: 'Input your length and width. The standard depth is 1 inch — the correct paver setting bed specification. The result shows cubic yards, tons, and an estimated bag count.' },
+      { name: 'Add 5% and confirm with your supplier', text: 'Add 5% to your calculated quantity. Call your supplier and ask for coarse concrete sand or paver bedding sand. Confirm they do not substitute play sand or fill sand.' },
+      { name: 'Prepare the base before adding sand', text: 'Compact your aggregate base layer (4–6 inches of crushed stone) thoroughly before adding sand. The base is the structural layer; the sand is only for leveling.' },
+      { name: 'Screed to exactly 1 inch and begin paving', text: 'Lay 1-inch diameter conduit pipes on the compacted base as screed guides. Pull a screed board across them to create a flat 1-inch surface. Remove the pipes, fill the channels, and begin laying pavers without disturbing the screeded surface. Do not compact the sand layer before the pavers are in place — the pavers and final plate compaction lock the bedding in position.' },
+    ],
+    guides: [
+      { title: 'How Much Base Gravel Do I Need Under Pavers?', href: null },
+      { title: 'Paver Patio Base Depth Guide', href: null },
+      { title: 'Can You Use Play Sand Under Pavers?', href: null },
     ],
   },
   {
@@ -438,7 +463,7 @@ export const calculators: Calculator[] = [
     categorySlug: 'landscaping',
     shortDesc: 'Find out how many cubic yards or bags of mulch you need.',
     description: 'Calculate mulch quantities for garden beds, tree rings, and landscaping borders. Get results in cubic yards, cubic feet, and number of bags. Covers bark mulch, wood chips, and shredded mulch.',
-    seoTitle: 'Mulch Calculator – Cubic Yards & Bags | Yard Metric',
+    seoTitle: 'Free Mulch Calculator – Cubic Yards & Bags | Yard Metric',
     seoDescription: 'Free mulch calculator: enter length, width, and depth to get cubic yards and bags instantly. Covers garden beds, tree rings, and landscaping borders at any depth.',
     icon: '🍂',
     calcMode: 'volume',
@@ -493,7 +518,7 @@ export const calculators: Calculator[] = [
     categorySlug: 'landscaping',
     shortDesc: 'Calculate rubber mulch for playgrounds and landscaping.',
     description: 'Calculate rubber mulch quantities for playground safety surfaces, garden paths, and low-maintenance landscaping. Rubber mulch is denser than wood mulch; use our accurate values.',
-    seoTitle: 'Rubber Mulch Calculator – Cubic Yards & Bags | Yard Metric',
+    seoTitle: 'Free Rubber Mulch Calculator – Cubic Yards & Bags | Yard Metric',
     seoDescription: 'Rubber mulch calculator for playgrounds and landscaping. Get cubic yards, weight, and bags. Includes ASTM-compliant depth guidance for playground safety surfaces.',
     icon: '⚫',
     calcMode: 'volume',
@@ -508,9 +533,17 @@ export const calculators: Calculator[] = [
       { title: 'Garden Path', width: 3, length: 15, depth: 3, unit: 'ft' },
     ],
     faqs: [
-      { q: 'How deep should rubber mulch be for a playground?', a: 'ASTM standards require at least 6 inches of rubber mulch under playground equipment up to 7 ft high. Use 9–12 inches for taller equipment.' },
-      { q: 'How much does rubber mulch weigh vs wood mulch?', a: 'Rubber mulch weighs about 1,600 lbs/yd³ while wood mulch is only 400–800 lbs/yd³, making it roughly twice as heavy per volume.' },
-      { q: 'Does rubber mulch last longer than wood mulch?', a: 'Yes, rubber mulch can last 10+ years without decomposing, compared to 1–2 years for wood mulch.' },
+      { q: 'What depth of rubber mulch do I need?', a: 'For landscaping, garden beds, dog runs, and walkways, 2–3 inches of rubber mulch is standard. For playgrounds, deeper coverage is typically required — always follow the manufacturer\'s safety recommendations for your specific equipment and installation.' },
+      { q: 'How deep should rubber mulch be for a playground?', a: 'Playground rubber mulch is commonly installed at depths between 6 and 12 inches depending on equipment height and the manufacturer\'s safety recommendations. Always verify the required depth for your specific playground equipment before ordering.' },
+      { q: 'Is rubber mulch better than wood mulch?', a: 'It depends on the application. Rubber mulch lasts longer and requires less maintenance, while wood mulch is less expensive upfront and adds organic matter to the soil as it decomposes. For playgrounds, many people prefer rubber mulch because it maintains a more consistent depth over time. For garden beds and landscaping, wood mulch is usually the better choice for soil health.' },
+      { q: 'How much rubber mulch do I need?', a: 'Multiply length (ft) × width (ft) × depth (in), then divide by 324 to get cubic yards. For a 15×20 ft playground at 6 inches deep, that is 5.56 cubic yards. For a garden bed or dog run at 2–3 inches, the quantity drops significantly. The calculator above handles this automatically.' },
+      { q: 'How many bags of rubber mulch do I need?', a: 'Coverage varies by bag size, product density, and installation depth — always check the manufacturer\'s stated coverage rate on the bag. For large playground areas, bulk pallet orders are significantly cheaper than individual bags. Use the calculator result in cubic yards and compare against the bulk coverage rate from your supplier.' },
+      { q: 'Is rubber mulch safe for children?', a: 'Rubber mulch is widely used on playgrounds because it provides cushioning and does not decompose like wood mulch. Many products are tested to industry safety standards, though some parents prefer alternatives due to concerns about recycled tire materials. IPEMA-certified products have been independently tested for impact attenuation.' },
+      { q: 'Does rubber mulch get hot in the sun?', a: 'Rubber mulch can become significantly hotter than wood mulch or natural grass in direct sunlight, especially during summer months. In hot climates, consider lighter-colored rubber mulch or positioning equipment in shaded areas to reduce surface heat buildup.' },
+      { q: 'Does rubber mulch smell?', a: 'New rubber mulch has a noticeable rubber odor that typically fades within a few weeks of outdoor exposure. The smell is most noticeable on hot days during the first season. EPDM rubber mulch or pre-weathered products tend to off-gas less than freshly manufactured material.' },
+      { q: 'How long does rubber mulch last?', a: 'Rubber mulch does not decompose and can last 10–15 years or more without replenishment. It does not compact significantly over time, meaning the depth you install stays close to the depth you\'ll have years later. The main degradation is UV-related color fading, not structural breakdown.' },
+      { q: 'How much does rubber mulch weigh vs wood mulch?', a: 'Rubber mulch weighs about 1,600 lbs/yd³ while wood mulch is only 400–800 lbs/yd³, making it roughly twice as heavy per volume. Factor this into delivery planning and any manual spreading work.' },
+      { q: 'How much does rubber mulch cost?', a: 'Rubber mulch generally costs several times more than traditional wood mulch upfront, but it can last significantly longer before needing replacement. For playgrounds and high-traffic areas where annual top-ups would otherwise be required, the longer lifespan can make it cost-competitive over time.' },
     ],
     materialInfo: 'Rubber mulch is manufactured from shredded recycled tires and does not decompose, rot, or compress significantly under typical conditions. It weighs approximately twice as much as wood mulch per cubic yard, which helps it stay in place during heavy rainfall. For playground safety applications, ASTM F1292 specifies minimum depths based on the critical fall height of equipment - a standard 6-inch depth covers most residential playground equipment up to 7 feet. Equipment taller than 7 feet requires deeper coverage per the standard.',
     applications: [
@@ -535,6 +568,18 @@ export const calculators: Calculator[] = [
       'Shredded rubber has better impact absorption than crumb rubber and is the preferred type for playground safety applications',
       'IPEMA (International Play Equipment Manufacturers Association) certification is the industry benchmark for playground safety compliance - verify this marking before purchasing',
     ],
+    howToSteps: [
+      { name: 'Determine the required depth', text: 'For landscaping, garden beds, dog runs, and walkways, 2–3 inches is standard. For playground safety surfaces, deeper coverage is typically required — check the manufacturer\'s recommendations for your specific equipment height before calculating.' },
+      { name: 'Measure your coverage area', text: 'Measure length and width in feet. For playground installations, include a safety zone extending beyond the equipment footprint as recommended by the equipment manufacturer.' },
+      { name: 'Calculate and add buffer', text: 'Enter your dimensions and depth into the calculator. Add 5% to the result — rubber mulch does not compress significantly, so a small buffer covers edge redistribution and minor losses only.' },
+      { name: 'Install weed barrier first', text: 'Lay permeable landscape fabric over the entire area before spreading rubber mulch. This prevents soil from migrating upward through the rubber layer over time, which would contaminate the surface and reduce its effectiveness.' },
+      { name: 'Spread and verify depth', text: 'Spread rubber mulch evenly to your target depth and check with a ruler at multiple points across the area. For playground surfaces, pay particular attention to fall zones directly under and around equipment — these areas receive the most foot traffic and displacement and should be checked and redistributed periodically.' },
+    ],
+    guides: [
+      { title: 'How Deep Should Rubber Mulch Be for a Playground?', href: null },
+      { title: 'Rubber Mulch vs Wood Mulch: Which Is Right for Your Project?', href: null },
+      { title: 'Is Rubber Mulch Safe? What You Should Know Before Buying', href: null },
+    ],
   },
   {
     slug: 'topsoil-calculator',
@@ -543,7 +588,7 @@ export const calculators: Calculator[] = [
     categorySlug: 'landscaping',
     shortDesc: 'Calculate cubic yards of topsoil needed for lawns and gardens.',
     description: 'New lawn, raised bed, and lawn leveling all require completely different topsoil depths. A new lawn needs 4–6 inches; a raised vegetable bed needs 12 inches; a topdressing pass needs just 0.5 inches. Enter your dimensions to get exact cubic yards, tons, and bag count - with the 10% settling buffer already included.',
-    seoTitle: 'Topsoil Calculator – Cubic Yards & Tons | Yard Metric',
+    seoTitle: 'Free Topsoil Calculator – Cubic Yards & Tons | Yard Metric',
     seoDescription: 'Free topsoil calculator: enter dimensions to get cubic yards, tons, and bags. Covers new lawns, raised garden beds, and lawn leveling at any depth.',
     icon: '🌱',
     calcMode: 'volume',
@@ -1122,7 +1167,7 @@ export const calculators: Calculator[] = [
     categorySlug: 'construction',
     shortDesc: 'Calculate concrete yardage for any pour: slabs, footings, and columns.',
     description: 'Calculate the amount of concrete needed for slabs, footings, columns, walls, and steps. Get results in cubic yards, cubic feet, and number of pre-mix bags.',
-    seoTitle: 'Concrete Calculator – Cubic Yards & Bags | Yard Metric',
+    seoTitle: 'Free Concrete Calculator – Cubic Yards & Bags | Yard Metric',
     seoDescription: 'Free concrete calculator: enter dimensions to get cubic yards, 60-lb and 80-lb bag counts. Covers slabs, footings, columns, walls, and steps. Add 5–10% overage.',
     icon: '🏛️',
     calcMode: 'volume',
@@ -1224,7 +1269,7 @@ export const calculators: Calculator[] = [
     categorySlug: 'construction',
     shortDesc: 'Calculate asphalt tonnage for driveways and parking lots.',
     description: 'Calculate the amount of asphalt (hot mix) needed for driveways, parking lots, and road surfaces. Get results in tons and cubic yards.',
-    seoTitle: 'Asphalt Calculator – Tons & Cubic Yards | Yard Metric',
+    seoTitle: 'Free Asphalt Calculator – Tons & Cubic Yards | Yard Metric',
     seoDescription: 'Asphalt calculator: enter length, width, and depth to get tons and cubic yards for driveways and parking lots. Uses 145 lbs/cu ft standard hot-mix density.',
     icon: '🛣️',
     calcMode: 'volume',
@@ -1323,7 +1368,7 @@ export const calculators: Calculator[] = [
     categorySlug: 'construction',
     shortDesc: 'Calculate rebar quantity and spacing for concrete slabs.',
     description: 'Calculate the total linear feet and number of rebar pieces needed for concrete slabs and footings. Supports standard rebar spacing patterns.',
-    seoTitle: 'Rebar Calculator – Linear Feet & Pieces for Concrete | Yard Metric',
+    seoTitle: 'Free Rebar Calculator – Linear Feet & Pieces for Concrete | Yard Metric',
     seoDescription: 'Rebar calculator: enter slab dimensions and spacing to get total linear feet and piece count. Covers concrete slabs, footings, and standard on-center rebar spacing.',
     icon: '🔩',
     calcMode: 'rebar',

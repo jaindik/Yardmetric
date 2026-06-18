@@ -47,7 +47,7 @@ const structuredData = JSON.stringify({
 
 <Layout
   title={`${category.name} Calculators - Free Online Tools | Yard Metric`}
-  description={`Free ${category.name.toLowerCase()} calculators for ${catCalcs.map(c => c.name).slice(0,5).join(', ')}, and more. Instant, accurate results in cubic yards, tons, and bags.`}
+  description={category.seoDescription}
   canonical={`https://yardmetric.com/${category.slug}/`}
 >
   <Fragment slot="structured-data">
