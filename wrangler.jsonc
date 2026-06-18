@@ -1,6 +1,6 @@
 {
   "name": "mysitemeasure",
-  "compatibility_date": "2026-06-07",
+  "compatibility_date": "2026-05-14",
   "main": "src/worker.ts",
   "assets": {
     "directory": "./dist",
